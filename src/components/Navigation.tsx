@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X, Mail, Plane } from 'lucide-react';
+import { Menu, X, Mail } from 'lucide-react';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -47,7 +47,7 @@ const Navigation = () => {
     <nav
       className={`fixed w-full z-50 transition-all duration-300 ${
         scrolled
-          ? 'py-3 bg-white bg-opacity-80 shadow-md backdrop-filter backdrop-blur-lg'
+          ? 'py-3 bg-white/80 shadow-md backdrop-filter backdrop-blur-lg'
           : 'py-5 bg-transparent'
       }`}
     >
@@ -55,8 +55,10 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Plane className="h-8 w-8 text-army-green mr-2" />
-            <span className="text-2xl font-bold text-army-green">InboxPilot</span>
+            <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white font-bold mr-2">
+              IP
+            </div>
+            <span className="text-2xl font-bold text-gray-900">InboxPilot</span>
           </div>
 
           {/* Desktop Menu */}
@@ -97,7 +99,7 @@ const Navigation = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-army-green focus:outline-none"
+              className="text-gray-700 hover:text-blue-600 focus:outline-none"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -107,46 +109,46 @@ const Navigation = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 z-50 flex flex-col items-center justify-center bg-white bg-opacity-90 backdrop-filter backdrop-blur-lg animate-fade-in">
+        <div className="md:hidden fixed inset-0 z-50 flex flex-col items-center justify-center bg-white bg-opacity-95 backdrop-filter backdrop-blur-lg animate-fade-in">
           <button
             onClick={() => setIsOpen(false)}
-            className="absolute top-5 right-5 text-gray-700 hover:text-army-green"
+            className="absolute top-5 right-5 text-gray-700 hover:text-blue-600"
           >
             <X size={24} />
           </button>
           <div className="flex flex-col items-center space-y-6 text-xl">
             <button
               onClick={() => scrollToSection('home')}
-              className="text-gray-700 hover:text-army-green"
+              className="text-gray-700 hover:text-blue-600"
             >
               Home
             </button>
             <button
               onClick={() => scrollToSection('features')}
-              className="text-gray-700 hover:text-army-green"
+              className="text-gray-700 hover:text-blue-600"
             >
               Features
             </button>
             <button
               onClick={() => scrollToSection('pricing')}
-              className="text-gray-700 hover:text-army-green"
+              className="text-gray-700 hover:text-blue-600"
             >
               Pricing
             </button>
             <button
               onClick={() => scrollToSection('about')}
-              className="text-gray-700 hover:text-army-green"
+              className="text-gray-700 hover:text-blue-600"
             >
               About Us
             </button>
             <button
               onClick={() => scrollToSection('contact')}
-              className="text-gray-700 hover:text-army-green"
+              className="text-gray-700 hover:text-blue-600"
             >
               Contact
             </button>
           </div>
-          <div className="absolute bottom-10 flex items-center text-army-green">
+          <div className="absolute bottom-10 flex items-center text-blue-600">
             <Mail className="mr-2 h-5 w-5" />
             <span>support@inboxpilot.com</span>
           </div>

@@ -13,15 +13,19 @@ const companies = [
 
 const TrustedBySection = () => {
   return (
-    <section className="py-16 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gray-50/50 -z-10"></div>
-      
+    <section className="py-16 relative overflow-hidden bg-white">
       <div className="container mx-auto px-4 md:px-6">
-        <h2 className="text-2xl md:text-3xl font-bold text-center mb-10">
-          Trusted by Industry Leaders
-        </h2>
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-600 text-sm font-medium mb-6">
+            <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
+            Trusted Partners
+          </div>
+          <h2 className="text-2xl md:text-3xl font-bold">
+            Trusted by Industry Leaders
+          </h2>
+        </div>
         
-        <div className="glass-card rounded-xl p-8">
+        <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 items-center justify-items-center">
             {companies.map((company, index) => (
               <div 

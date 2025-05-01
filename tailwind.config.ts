@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,10 +62,10 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				// InboxPilot custom brand colors
-				"army-green": "#4B7043",
-				"light-green": "#7EA67A",
-				"neutral-gray": "#8E9196"
+				// Updated brand colors to match Smart Email Nexus style
+				"army-green": "#2563eb", // Changed to blue
+				"light-green": "#60a5fa", // Changed to lighter blue
+				"neutral-gray": "#64748b" // Adjusted to slate-500
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
@@ -74,7 +73,8 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				'poppins': ['Poppins', 'sans-serif']
+				'poppins': ['Poppins', 'sans-serif'],
+				'inter': ['Inter', 'sans-serif'] // Added Inter font
 			},
 			keyframes: {
 				'accordion-down': {

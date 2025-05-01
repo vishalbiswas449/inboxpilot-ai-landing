@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Mail, Plane, Linkedin, Twitter, Instagram } from 'lucide-react';
+import { Mail, Linkedin, Twitter, Instagram } from 'lucide-react';
 
 const Footer = () => {
   const [email, setEmail] = useState('');
@@ -51,28 +51,27 @@ const Footer = () => {
   };
 
   return (
-    <footer className="relative pt-16 pb-8 overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-b from-white to-light-green/20 -z-10"></div>
-      
+    <footer className="relative pt-16 pb-8 overflow-hidden bg-gradient-to-b from-white to-blue-50">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 pb-12">
           <div className="space-y-4">
             <div className="flex items-center">
-              <Plane className="h-8 w-8 text-army-green mr-2" />
-              <span className="text-2xl font-bold text-army-green">InboxPilot</span>
+              <div className="h-10 w-10 rounded-lg bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center text-white font-bold mr-2">
+                IP
+              </div>
+              <span className="text-2xl font-bold text-gray-900">InboxPilot</span>
             </div>
             <p className="text-gray-600">
               Where Emails Fly Smoothly! 🚀
             </p>
             <div className="flex space-x-4 pt-2">
-              <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                 <Linkedin className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -82,27 +81,27 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <button onClick={() => scrollToSection('home')} className="text-gray-600 hover:text-army-green transition-colors">
+                <button onClick={() => scrollToSection('home')} className="text-gray-600 hover:text-blue-600 transition-colors">
                   Home
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('features')} className="text-gray-600 hover:text-army-green transition-colors">
+                <button onClick={() => scrollToSection('features')} className="text-gray-600 hover:text-blue-600 transition-colors">
                   Features
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('pricing')} className="text-gray-600 hover:text-army-green transition-colors">
+                <button onClick={() => scrollToSection('pricing')} className="text-gray-600 hover:text-blue-600 transition-colors">
                   Pricing
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-army-green transition-colors">
+                <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-blue-600 transition-colors">
                   About Us
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-army-green transition-colors">
+                <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-blue-600 transition-colors">
                   Contact
                 </button>
               </li>
@@ -113,8 +112,8 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2">
               <li className="flex items-center">
-                <Mail className="h-5 w-5 text-army-green mr-2" />
-                <a href="mailto:support@inboxpilot.com" className="text-gray-600 hover:text-army-green transition-colors">
+                <Mail className="h-5 w-5 text-blue-600 mr-2" />
+                <a href="mailto:support@inboxpilot.com" className="text-gray-600 hover:text-blue-600 transition-colors">
                   support@inboxpilot.com
                 </a>
               </li>
@@ -137,12 +136,12 @@ const Footer = () => {
                   onChange={handleEmailChange}
                   placeholder="Your email"
                   required
-                  className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-army-green focus:border-transparent"
+                  className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                 />
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="green-gradient text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
+                  className="blue-gradient text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
                 >
                   {isSubmitting ? 'Joining...' : 'Join the Pilot Crew!'}
                 </button>
@@ -164,22 +163,15 @@ const Footer = () => {
               © 2025 InboxPilot. All rights reserved. Made with 😄
             </p>
             <div className="flex space-x-4 text-sm">
-              <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                 Privacy Policy
               </a>
-              <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                 Terms of Service
               </a>
-              <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+              <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                 Cookies
               </a>
-            </div>
-          </div>
-          
-          <div className="mt-8 flex justify-center">
-            <div className="group cursor-pointer flex items-center space-x-1">
-              <Mail className="h-5 w-5 text-army-green animate-bounce" />
-              <Plane className="h-5 w-5 text-army-green group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
             </div>
           </div>
         </div>

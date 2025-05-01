@@ -62,21 +62,28 @@ const SocialProofSection = () => {
   };
 
   return (
-    <section className="py-20 relative overflow-hidden bg-gray-50">
+    <section className="py-24 relative overflow-hidden bg-[#f8fafc]">
+      <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-[120px] opacity-30 -z-10"></div>
+      <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-300 rounded-full filter blur-[100px] opacity-25 -z-10"></div>
+      
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Loved by Professionals Worldwide</h2>
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-600 text-sm font-medium mb-6">
+            <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
+            Customer Stories
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Loved by Professionals Worldwide</h2>
           <div className="flex justify-center space-x-8 mb-8">
             <div className="text-center">
-              <p className="text-3xl font-bold text-army-green">10,000+</p>
+              <p className="text-3xl font-bold text-blue-600">10,000+</p>
               <p className="text-gray-600">Active Users</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-army-green">1M+</p>
+              <p className="text-3xl font-bold text-blue-600">1M+</p>
               <p className="text-gray-600">Emails Processed</p>
             </div>
             <div className="text-center">
-              <p className="text-3xl font-bold text-army-green">4.8/5</p>
+              <p className="text-3xl font-bold text-blue-600">4.8/5</p>
               <p className="text-gray-600">User Rating</p>
             </div>
           </div>
@@ -87,17 +94,17 @@ const SocialProofSection = () => {
           <div className="flex justify-between mb-4 md:hidden">
             <button 
               onClick={prevSlide}
-              className="p-2 rounded-full bg-white shadow-md hover:bg-gray-100"
+              className="p-2 rounded-full bg-white shadow-md hover:bg-blue-50"
               aria-label="Previous testimonial"
             >
-              <ChevronLeft className="h-5 w-5 text-army-green" />
+              <ChevronLeft className="h-5 w-5 text-blue-600" />
             </button>
             <button 
               onClick={nextSlide}
-              className="p-2 rounded-full bg-white shadow-md hover:bg-gray-100"
+              className="p-2 rounded-full bg-white shadow-md hover:bg-blue-50"
               aria-label="Next testimonial"
             >
-              <ChevronRight className="h-5 w-5 text-army-green" />
+              <ChevronRight className="h-5 w-5 text-blue-600" />
             </button>
           </div>
           
@@ -106,7 +113,7 @@ const SocialProofSection = () => {
             {testimonials.map((testimonial, index) => (
               <div 
                 key={index}
-                className="glass-card rounded-xl p-6 transition-all duration-500 hover:shadow-xl animate-scale-up"
+                className="bg-white rounded-xl p-6 transition-all duration-500 hover:shadow-xl shadow-md border border-gray-100 animate-scale-up"
                 style={{ animationDelay: `${index * 150}ms` }}
               >
                 <div className="flex items-center mb-4">
@@ -135,7 +142,7 @@ const SocialProofSection = () => {
             {visibleTestimonials().map((testimonial, index) => (
               <div 
                 key={index}
-                className="glass-card rounded-xl p-6 mb-4"
+                className="bg-white rounded-xl p-6 mb-4 shadow-md border border-gray-100"
               >
                 <div className="flex items-center mb-4">
                   {[...Array(5)].map((_, i) => (
@@ -165,7 +172,7 @@ const SocialProofSection = () => {
                 key={index}
                 onClick={() => setCurrentIndex(index)}
                 className={`h-2 rounded-full transition-all ${
-                  currentIndex === index ? 'w-8 bg-army-green' : 'w-2 bg-gray-300'
+                  currentIndex === index ? 'w-8 bg-blue-600' : 'w-2 bg-gray-300'
                 }`}
                 aria-label={`Go to testimonial group ${index + 1}`}
               ></button>

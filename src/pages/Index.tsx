@@ -23,7 +23,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative overflow-hidden bg-white">
       <Navigation />
       <HeroSection />
       <FeaturesSection />

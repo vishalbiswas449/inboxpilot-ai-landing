@@ -48,21 +48,25 @@ const ContactSection = () => {
   };
 
   return (
-    <section id="contact" className="py-20 relative overflow-hidden bg-gray-50">
+    <section id="contact" className="py-24 relative overflow-hidden bg-[#f8fafc]">
       {/* Background elements */}
-      <div className="absolute top-10 right-10 w-64 h-64 bg-light-green rounded-full filter blur-[100px] opacity-20 -z-10"></div>
-      <div className="absolute bottom-10 left-10 w-64 h-64 bg-army-green rounded-full filter blur-[100px] opacity-20 -z-10"></div>
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-[120px] opacity-30 -z-10"></div>
+      <div className="absolute bottom-1/4 right-1/4 w-64 h-64 bg-blue-300 rounded-full filter blur-[100px] opacity-25 -z-10"></div>
       
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Get in Touch</h2>
-          <p className="text-gray-600 max-w-2xl mx-auto">
-            Have questions or ready to revolutionize your email experience? Reach out to our team.
+        <div className="text-center mb-12 max-w-3xl mx-auto">
+          <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-600 text-sm font-medium mb-6">
+            <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
+            Get In Touch
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Contact Us</h2>
+          <p className="text-gray-600">
+            Have questions or ready to revolutionize your email experience? Our team is here to help.
           </p>
         </div>
         
         <div className="max-w-3xl mx-auto">
-          <div className="glass-card rounded-xl p-6 md:p-8 animate-scale-up">
+          <div className="bg-white rounded-xl p-6 md:p-8 shadow-lg border border-gray-100 animate-scale-up">
             {submitResult && (
               <div className={`mb-6 p-4 rounded-lg ${
                 submitResult.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
@@ -84,7 +88,7 @@ const ContactSection = () => {
                     required
                     value={formData.name}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-army-green focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="Your name"
                   />
                 </div>
@@ -99,7 +103,7 @@ const ContactSection = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-army-green focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                     placeholder="your@email.com"
                   />
                 </div>
@@ -115,7 +119,7 @@ const ContactSection = () => {
                   name="company"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-army-green focus:border-transparent"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
                   placeholder="Your company"
                 />
               </div>
@@ -131,7 +135,7 @@ const ContactSection = () => {
                   value={formData.message}
                   onChange={handleChange}
                   rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-army-green focus:border-transparent resize-none"
+                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none"
                   placeholder="How can we help you?"
                 />
               </div>
@@ -161,13 +165,13 @@ const ContactSection = () => {
                 <div>
                   <h3 className="text-lg font-semibold mb-3">Follow Us</h3>
                   <div className="flex space-x-4">
-                    <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+                    <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                       <Linkedin className="h-6 w-6" />
                     </a>
-                    <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+                    <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                       <Twitter className="h-6 w-6" />
                     </a>
-                    <a href="#" className="text-gray-600 hover:text-army-green transition-colors">
+                    <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                       <Instagram className="h-6 w-6" />
                     </a>
                   </div>

@@ -50,15 +50,21 @@ const features = [
 
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-20 relative overflow-hidden">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white to-light-green/10 -z-10"></div>
+    <section id="features" className="py-24 relative overflow-hidden bg-white">
+      {/* Background elements */}
+      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-blue-50 -z-10"></div>
+      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-50 -z-10"></div>
+      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-[120px] opacity-40 -z-10"></div>
       
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Why Choose InboxPilot?</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Powerful features to transform how you manage your inbox.
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-600 text-sm font-medium mb-6">
+            <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
+            Powerful Features
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">Why Choose InboxPilot?</h2>
+          <p className="text-lg text-gray-600">
+            Our intelligent AI assistant transforms how you manage emails, saving you time and boosting productivity.
           </p>
         </div>
         
@@ -66,14 +72,14 @@ const FeaturesSection = () => {
           {features.map((feature, index) => (
             <div 
               key={index} 
-              className="glass-card rounded-xl p-6 transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+              className="bg-white rounded-xl p-6 transition-all duration-500 hover:shadow-xl hover:-translate-y-1 shadow-md border border-gray-100"
               style={{
                 animation: `animate-fade-in 0.6s ease-out forwards`,
                 animationDelay: `${parseInt(feature.delay)}ms`,
                 opacity: 0
               }}
             >
-              <div className="h-12 w-12 rounded-full green-gradient flex items-center justify-center mb-4">
+              <div className="h-12 w-12 rounded-xl blue-gradient flex items-center justify-center mb-4">
                 <feature.icon className="h-6 w-6 text-white" />
               </div>
               <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
