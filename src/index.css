@@ -77,8 +77,30 @@
   .btn-secondary {
     @apply border border-blue-600 text-blue-600 px-6 py-3 rounded-full font-medium hover:shadow-lg transition-all duration-300 hover:-translate-y-1 bg-white bg-opacity-20 backdrop-filter backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50;
   }
+  
+  /* New styles for enhanced components */
+  .floating-element {
+    @apply animate-float;
+  }
+  
+  .highlight-card {
+    @apply transition-all duration-500 hover:shadow-xl hover:-translate-y-1 hover:border-blue-200;
+  }
+  
+  .cursor-effect {
+    @apply pointer-events-none fixed w-64 h-64 rounded-full bg-blue-400/10 z-0;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+  }
+  
+  .page-transition-indicator {
+    @apply fixed top-0 left-0 h-1 bg-gradient-to-r from-blue-600 to-purple-600;
+    width: 0%;
+    z-index: 9999;
+  }
 }
 
+/* Keyframes animations */
 @keyframes accordion-down {
   from {
     height: 0;
@@ -148,6 +170,40 @@
   }
 }
 
+/* New animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Animation utilities */
 @layer utilities {
   .animate-accordion-up {
     animation: accordion-up 0.2s ease-out;
@@ -155,6 +211,18 @@
 
   .animate-accordion-down {
     animation: accordion-down 0.2s ease-out;
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .animate-pulse-ring {
+    animation: pulse-ring 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+  
+  .animate-progress {
+    animation: progress 2.5s ease-out forwards;
   }
 }
 
@@ -176,4 +244,16 @@
 
 .animate-scale-up {
   animation: scale-up 0.4s ease-out;
+}
+
+/* Add cursor effect animation */
+.cursor-effect.active {
+  opacity: 0.3;
+  transition: opacity 0.3s ease;
+}
+
+/* Page transition animation */
+.page-loading .page-transition-indicator {
+  width: 100%;
+  transition: width 1s ease-out;
 }

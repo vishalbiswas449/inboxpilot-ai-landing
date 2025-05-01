@@ -1,5 +1,5 @@
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Navigation from "../components/Navigation";
 import HeroSection from "../components/HeroSection";
 import FeaturesSection from "../components/FeaturesSection";
@@ -9,8 +9,11 @@ import PricingSection from "../components/PricingSection";
 import AboutSection from "../components/AboutSection";
 import ContactSection from "../components/ContactSection";
 import Footer from "../components/Footer";
+import { ArrowUp } from "lucide-react";
 
 const Index = () => {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  
   useEffect(() => {
     // Update document title for SEO
     document.title = "InboxPilot - AI-Powered Email Assistant";
@@ -20,19 +23,70 @@ const Index = () => {
     if (metaDescription) {
       metaDescription.setAttribute("content", "Save time, stay organized, and craft perfect emails with InboxPilot's intelligent AI-powered email assistant.");
     }
+    
+    // Handle scroll for showing scroll-to-top button
+    const handleScroll = () => {
+      if (window.scrollY > 500) {
+        setShowScrollTop(true);
+      } else {
+        setShowScrollTop(false);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  };
 
   return (
-    <div className="relative overflow-hidden bg-white">
+    <div className="relative overflow-x-hidden bg-white">
       <Navigation />
-      <HeroSection />
-      <FeaturesSection />
-      <SocialProofSection />
-      <TrustedBySection />
-      <PricingSection />
-      <AboutSection />
-      <ContactSection />
+      
+      {/* Animated cursor light effect */}
+      <div className="cursor-effect" />
+      
+      {/* Main content */}
+      <main>
+        <HeroSection />
+        
+        <div className="relative">
+          {/* Decorative dividers */}
+          <div className="absolute top-0 left-0 w-full overflow-hidden leading-0 transform rotate-180">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none" className="h-16 w-full">
+              <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" 
+                className="fill-blue-50"></path>
+            </svg>
+          </div>
+          
+          <FeaturesSection />
+          <SocialProofSection />
+          <TrustedBySection />
+          <PricingSection />
+          <AboutSection />
+          <ContactSection />
+        </div>
+      </main>
+      
       <Footer />
+      
+      {/* Scroll to top button */}
+      <button 
+        onClick={scrollToTop}
+        className={`fixed right-6 bottom-6 p-3 rounded-full bg-blue-600 text-white shadow-lg z-50 transition-all duration-300 ${
+          showScrollTop ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+        }`}
+      >
+        <ArrowUp size={20} />
+      </button>
+      
+      {/* Add a loader animation that appears during page transitions */}
+      <div className="page-transition-indicator"></div>
     </div>
   );
 };

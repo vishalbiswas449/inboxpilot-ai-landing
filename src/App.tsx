@@ -3,9 +3,11 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { useEffect } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import { initAllAnimations, simulatePageLoading } from "./utils/animationUtils";
 
 /**
  * InboxPilot SaaS Landing Page
@@ -41,26 +43,45 @@ import NotFound from "./pages/NotFound";
  *      ```
  */
 
+// Component to handle route change animations
+const RouteChangeHandler = () => {
+  const location = useLocation();
+  
+  useEffect(() => {
+    simulatePageLoading();
+  }, [location]);
+  
+  return null;
+};
+
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          {/* 
-            For a complete implementation, you might want to add:
-            <Route path="/success" element={<SubscriptionSuccess />} />
-            <Route path="/cancel" element={<SubscriptionCancel />} />
-          */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  useEffect(() => {
+    // Initialize all animations
+    initAllAnimations();
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <RouteChangeHandler />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            {/* 
+              For a complete implementation, you might want to add:
+              <Route path="/success" element={<SubscriptionSuccess />} />
+              <Route path="/cancel" element={<SubscriptionCancel />} />
+            */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;
