@@ -1,16 +1,14 @@
 
 import React, { useState } from 'react';
 import { Send, Linkedin, Twitter, Instagram } from 'lucide-react';
+import { toast } from "../components/ui/sonner";
 
 const ContactSection = () => {
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
-    company: '',
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitResult, setSubmitResult] = useState<{success?: boolean; message?: string} | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -20,7 +18,6 @@ const ContactSection = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setSubmitResult(null);
     
     // This would be connected to Supabase in a real implementation
     try {
@@ -30,18 +27,12 @@ const ContactSection = () => {
       console.log('Form submitted:', formData);
       
       // Simulation of successful submission
-      setSubmitResult({ 
-        success: true, 
-        message: 'Thank you for reaching out! We\'ll get back to you soon.' 
-      });
-      setFormData({ name: '', email: '', company: '', message: '' });
+      toast.success("Thank you for reaching out! We'll get back to you soon.");
+      setFormData({ email: '', message: '' });
       
     } catch (error) {
       console.error('Error submitting form:', error);
-      setSubmitResult({ 
-        success: false, 
-        message: 'There was an error submitting your message. Please try again.' 
-      });
+      toast.error("There was an error submitting your message. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -65,37 +56,14 @@ const ContactSection = () => {
           </p>
         </div>
         
-        <div className="max-w-3xl mx-auto">
-          <div className="bg-white rounded-xl p-6 md:p-8 shadow-lg border border-gray-100 animate-scale-up">
-            {submitResult && (
-              <div className={`mb-6 p-4 rounded-lg ${
-                submitResult.success ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-              }`}>
-                {submitResult.message}
-              </div>
-            )}
-            
-            <form onSubmit={handleSubmit}>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                    Name*
-                  </label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    required
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                    placeholder="Your name"
-                  />
-                </div>
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                    Email*
-                  </label>
+        <div className="max-w-lg mx-auto">
+          <div className="glass-card bg-white/80 rounded-xl p-6 md:p-8 shadow-lg border border-blue-100/50 animate-scale-up transition-all duration-300 hover:shadow-blue-200/20">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                  Email*
+                </label>
+                <div className="group relative">
                   <input
                     type="email"
                     id="email"
@@ -103,41 +71,30 @@ const ContactSection = () => {
                     required
                     value={formData.email}
                     onChange={handleChange}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-shadow"
                     placeholder="your@email.com"
                   />
+                  <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-400 scale-x-0 group-focus-within:scale-x-100 transition-transform origin-left"></div>
                 </div>
               </div>
               
-              <div className="mb-6">
-                <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
-                  Company (optional)
-                </label>
-                <input
-                  type="text"
-                  id="company"
-                  name="company"
-                  value={formData.company}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                  placeholder="Your company"
-                />
-              </div>
-              
-              <div className="mb-6">
+              <div>
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
                   Message*
                 </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  required
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={5}
-                  className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none"
-                  placeholder="How can we help you?"
-                />
+                <div className="group relative">
+                  <textarea
+                    id="message"
+                    name="message"
+                    required
+                    value={formData.message}
+                    onChange={handleChange}
+                    rows={5}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent resize-none transition-shadow"
+                    placeholder="How can we help you?"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-400 scale-x-0 group-focus-within:scale-x-100 transition-transform origin-left"></div>
+                </div>
               </div>
               
               <button

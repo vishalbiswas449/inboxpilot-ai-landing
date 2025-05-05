@@ -37,7 +37,7 @@ const PricingSection = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
           {/* Free Plan */}
-          <div className="bg-white rounded-2xl p-8 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 shadow-lg border border-gray-100 animate-scale-up">
+          <div className="glass-card bg-white/80 rounded-2xl p-8 transition-all duration-500 border border-gray-200 hover:shadow-lg hover:shadow-blue-200/30 hover:-translate-y-2 animate-scale-up">
             <h3 className="text-2xl font-bold mb-2">Free</h3>
             <div className="mb-6">
               <span className="text-4xl font-bold">$0</span>
@@ -75,7 +75,7 @@ const PricingSection = () => {
           </div>
           
           {/* Pro Plan */}
-          <div className="bg-white rounded-2xl p-8 relative transform scale-105 shadow-xl border-2 border-blue-100 z-10 animate-scale-up" style={{ animationDelay: '150ms' }}>
+          <div className="glass-card bg-white/90 rounded-2xl p-8 relative transform scale-105 border-2 border-blue-200 shadow-lg shadow-blue-200/20 z-10 animate-scale-up" style={{ animationDelay: '150ms' }}>
             <div className="absolute top-0 right-0 blue-gradient text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">
               POPULAR
             </div>
@@ -116,7 +116,7 @@ const PricingSection = () => {
           </div>
           
           {/* Enterprise Plan */}
-          <div className="bg-white rounded-2xl p-8 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 shadow-lg border border-gray-100 animate-scale-up" style={{ animationDelay: '300ms' }}>
+          <div className="glass-card bg-white/80 rounded-2xl p-8 transition-all duration-500 border border-gray-200 hover:shadow-lg hover:shadow-blue-200/30 hover:-translate-y-2 animate-scale-up" style={{ animationDelay: '300ms' }}>
             <h3 className="text-2xl font-bold mb-2">Enterprise</h3>
             <div className="mb-6">
               <span className="text-4xl font-bold">Custom</span>

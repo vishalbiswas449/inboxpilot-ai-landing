@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+import React, { useRef, useEffect } from 'react';
+import { Star } from 'lucide-react';
 
 const testimonials = [
   {
@@ -30,39 +30,76 @@ const testimonials = [
 ];
 
 const SocialProofSection = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const scrollContainer = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLElement>(null);
+  const isScrolling = useRef<boolean>(false);
+  const isPaused = useRef<boolean>(false);
   
-  const prevSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === 0 ? Math.ceil(testimonials.length / getItemsPerView()) - 1 : prevIndex - 1
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          startScrolling();
+        } else {
+          stopScrolling();
+        }
+      },
+      { threshold: 0.1 }
     );
-  };
-  
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) => 
-      prevIndex === Math.ceil(testimonials.length / getItemsPerView()) - 1 ? 0 : prevIndex + 1
-    );
-  };
-
-  // Responsive items per view
-  const getItemsPerView = () => {
-    if (typeof window !== 'undefined') {
-      if (window.innerWidth < 768) return 1;
-      if (window.innerWidth < 1024) return 2;
-      return 3;
+    
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
     }
-    return 3; // Default for SSR
+    
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+      stopScrolling();
+    };
+  }, []);
+  
+  const startScrolling = () => {
+    if (isScrolling.current) return;
+    isScrolling.current = true;
+    
+    const scroll = () => {
+      if (!scrollContainer.current || !isScrolling.current || isPaused.current) return;
+      
+      const container = scrollContainer.current;
+      if (container.scrollLeft >= (container.scrollWidth - container.clientWidth)) {
+        // Reset scroll position when reached the end
+        container.scrollLeft = 0;
+      } else {
+        container.scrollLeft += 1; // Adjust speed here
+      }
+      
+      requestAnimationFrame(scroll);
+    };
+    
+    requestAnimationFrame(scroll);
   };
-
-  // Calculate visible testimonials
-  const visibleTestimonials = () => {
-    const itemsPerView = getItemsPerView();
-    const start = currentIndex * itemsPerView;
-    return testimonials.slice(start, start + itemsPerView);
+  
+  const stopScrolling = () => {
+    isScrolling.current = false;
   };
-
+  
+  const handleMouseEnter = () => {
+    isPaused.current = true;
+  };
+  
+  const handleMouseLeave = () => {
+    isPaused.current = false;
+  };
+  
+  // Clone testimonials to create infinite loop effect
+  const allTestimonials = [...testimonials, ...testimonials];
+  
   return (
-    <section className="py-24 relative overflow-hidden bg-[#f8fafc]">
+    <section 
+      ref={sectionRef}
+      className="py-24 relative overflow-hidden bg-[#f8fafc]"
+    >
       <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-[120px] opacity-30 -z-10"></div>
       <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-300 rounded-full filter blur-[100px] opacity-25 -z-10"></div>
       
@@ -73,7 +110,7 @@ const SocialProofSection = () => {
             Customer Stories
           </div>
           <h2 className="text-3xl md:text-4xl font-bold mb-6">Loved by Professionals Worldwide</h2>
-          <div className="flex justify-center space-x-8 mb-8">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16 mb-12">
             <div className="text-center">
               <p className="text-3xl font-bold text-blue-600">10,000+</p>
               <p className="text-gray-600">Active Users</p>
@@ -89,94 +126,62 @@ const SocialProofSection = () => {
           </div>
         </div>
         
-        <div className="relative">
-          {/* Mobile carousel controls */}
-          <div className="flex justify-between mb-4 md:hidden">
-            <button 
-              onClick={prevSlide}
-              className="p-2 rounded-full bg-white shadow-md hover:bg-blue-50"
-              aria-label="Previous testimonial"
-            >
-              <ChevronLeft className="h-5 w-5 text-blue-600" />
-            </button>
-            <button 
-              onClick={nextSlide}
-              className="p-2 rounded-full bg-white shadow-md hover:bg-blue-50"
-              aria-label="Next testimonial"
-            >
-              <ChevronRight className="h-5 w-5 text-blue-600" />
-            </button>
-          </div>
+        <div 
+          className="relative overflow-hidden"
+          style={{ padding: '20px 0' }}
+        >
+          {/* Gradient fade on left edge */}
+          <div className="absolute left-0 top-0 bottom-0 w-12 md:w-24 z-10 bg-gradient-to-r from-[#f8fafc] to-transparent"></div>
           
-          {/* Desktop carousel */}
-          <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {testimonials.map((testimonial, index) => (
-              <div 
-                key={index}
-                className="bg-white rounded-xl p-6 transition-all duration-500 hover:shadow-xl shadow-md border border-gray-100 animate-scale-up"
-                style={{ animationDelay: `${index * 150}ms` }}
-              >
-                <div className="flex items-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6 italic">&quot;{testimonial.quote}&quot;</p>
-                <div className="flex items-center">
-                  <img 
-                    src={testimonial.avatar} 
-                    alt={testimonial.name}
-                    className="h-12 w-12 rounded-full object-cover mr-4" 
-                  />
-                  <div>
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600">{testimonial.title}</p>
+          {/* Gradient fade on right edge */}
+          <div className="absolute right-0 top-0 bottom-0 w-12 md:w-24 z-10 bg-gradient-to-l from-[#f8fafc] to-transparent"></div>
+          
+          <div 
+            ref={scrollContainer}
+            className="flex overflow-x-auto snap-x scrollbar-hide pb-6 pt-2"
+            style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+            onTouchStart={handleMouseEnter}
+            onTouchEnd={handleMouseLeave}
+          >
+            <div className="flex gap-6 pr-6">
+              {allTestimonials.map((testimonial, index) => (
+                <div 
+                  key={index}
+                  className="glass-card flex-shrink-0 w-[300px] md:w-[350px] bg-white/70 rounded-xl p-6 border border-transparent hover:border-blue-200 transition-all snap-center"
+                  style={{ boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.1)' }}
+                >
+                  <div className="flex items-center mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-gray-700 mb-6 italic">&quot;{testimonial.quote}&quot;</p>
+                  <div className="flex items-center">
+                    <img 
+                      src={testimonial.avatar} 
+                      alt={testimonial.name}
+                      className="h-12 w-12 rounded-full object-cover mr-4" 
+                      loading="lazy"
+                    />
+                    <div>
+                      <p className="font-semibold">{testimonial.name}</p>
+                      <p className="text-sm text-gray-600">{testimonial.title}</p>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-          
-          {/* Mobile carousel */}
-          <div className="md:hidden">
-            {visibleTestimonials().map((testimonial, index) => (
-              <div 
-                key={index}
-                className="bg-white rounded-xl p-6 mb-4 shadow-md border border-gray-100"
-              >
-                <div className="flex items-center mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" />
-                  ))}
-                </div>
-                <p className="text-gray-700 mb-6 italic">&quot;{testimonial.quote}&quot;</p>
-                <div className="flex items-center">
-                  <img 
-                    src={testimonial.avatar} 
-                    alt={testimonial.name}
-                    className="h-12 w-12 rounded-full object-cover mr-4" 
-                  />
-                  <div>
-                    <p className="font-semibold">{testimonial.name}</p>
-                    <p className="text-sm text-gray-600">{testimonial.title}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          {/* Desktop carousel controls */}
-          <div className="hidden md:flex justify-center mt-8 space-x-2">
-            {[...Array(Math.ceil(testimonials.length / getItemsPerView()))].map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`h-2 rounded-full transition-all ${
-                  currentIndex === index ? 'w-8 bg-blue-600' : 'w-2 bg-gray-300'
-                }`}
-                aria-label={`Go to testimonial group ${index + 1}`}
-              ></button>
-            ))}
+        </div>
+        
+        {/* Mobile touch indicator */}
+        <div className="flex justify-center mt-4 md:hidden">
+          <div className="flex items-center text-xs text-gray-500">
+            <span className="animate-pulse">←</span>
+            <span className="mx-2">Swipe</span>
+            <span className="animate-pulse">→</span>
           </div>
         </div>
       </div>

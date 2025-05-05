@@ -37,9 +37,22 @@ export const initCursorEffect = () => {
 // Simulate page transition loading effect
 export const simulatePageLoading = () => {
   document.body.classList.add('page-loading');
-  setTimeout(() => {
-    document.body.classList.remove('page-loading');
-  }, 1000);
+  
+  const pageTransitionIndicator = document.querySelector('.page-transition-indicator');
+  if (pageTransitionIndicator instanceof HTMLElement) {
+    pageTransitionIndicator.style.width = '0%';
+    setTimeout(() => {
+      pageTransitionIndicator.style.width = '100%';
+      setTimeout(() => {
+        document.body.classList.remove('page-loading');
+        pageTransitionIndicator.style.width = '0%';
+      }, 1000);
+    }, 100);
+  } else {
+    setTimeout(() => {
+      document.body.classList.remove('page-loading');
+    }, 1000);
+  }
 };
 
 // Initialize scroll animations
@@ -55,6 +68,21 @@ export const initScrollAnimations = () => {
         element.classList.add('animated');
       }
     });
+    
+    // Feature cards animation
+    const featureSections = document.querySelectorAll('#features');
+    featureSections.forEach(section => {
+      const sectionTop = (section as HTMLElement).getBoundingClientRect().top;
+      const featureCards = section.querySelectorAll('.feature-card');
+      
+      if (sectionTop < windowHeight - 150) {
+        featureCards.forEach((card, index) => {
+          setTimeout(() => {
+            card.classList.add('visible');
+          }, index * 100);
+        });
+      }
+    });
   };
   
   // Initial check for elements in view
@@ -67,11 +95,17 @@ export const initScrollAnimations = () => {
 // Initialize all animations
 export const initAllAnimations = () => {
   // Wait for DOM to be fully loaded
-  window.addEventListener('DOMContentLoaded', () => {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      initCursorEffect();
+      simulatePageLoading();
+      initScrollAnimations();
+    });
+  } else {
     initCursorEffect();
     simulatePageLoading();
     initScrollAnimations();
-  });
+  }
 };
 
 export default initAllAnimations;

@@ -1,11 +1,11 @@
 
 import React, { useState } from 'react';
 import { Mail, Linkedin, Twitter, Instagram } from 'lucide-react';
+import { toast } from "../components/ui/sonner";
 
 const Footer = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitResult, setSubmitResult] = useState<{success?: boolean; message?: string} | null>(null);
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -16,7 +16,6 @@ const Footer = () => {
     if (!email) return;
     
     setIsSubmitting(true);
-    setSubmitResult(null);
     
     // This would be connected to Supabase in a real implementation
     try {
@@ -26,18 +25,12 @@ const Footer = () => {
       console.log('Newsletter subscription:', email);
       
       // Simulation of successful submission
-      setSubmitResult({ 
-        success: true, 
-        message: 'You\'ve successfully joined our newsletter!' 
-      });
+      toast.success("You've successfully joined our newsletter!"); 
       setEmail('');
       
     } catch (error) {
       console.error('Error submitting subscription:', error);
-      setSubmitResult({ 
-        success: false, 
-        message: 'There was an error. Please try again.' 
-      });
+      toast.error("There was an error. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -81,27 +74,27 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <button onClick={() => scrollToSection('home')} className="text-gray-600 hover:text-blue-600 transition-colors">
+                <button onClick={() => scrollToSection('home')} className="text-gray-600 hover:text-blue-600 transition-colors min-h-11 flex items-center">
                   Home
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('features')} className="text-gray-600 hover:text-blue-600 transition-colors">
+                <button onClick={() => scrollToSection('features')} className="text-gray-600 hover:text-blue-600 transition-colors min-h-11 flex items-center">
                   Features
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('pricing')} className="text-gray-600 hover:text-blue-600 transition-colors">
+                <button onClick={() => scrollToSection('pricing')} className="text-gray-600 hover:text-blue-600 transition-colors min-h-11 flex items-center">
                   Pricing
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-blue-600 transition-colors">
+                <button onClick={() => scrollToSection('about')} className="text-gray-600 hover:text-blue-600 transition-colors min-h-11 flex items-center">
                   About Us
                 </button>
               </li>
               <li>
-                <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-blue-600 transition-colors">
+                <button onClick={() => scrollToSection('contact')} className="text-gray-600 hover:text-blue-600 transition-colors min-h-11 flex items-center">
                   Contact
                 </button>
               </li>
@@ -111,13 +104,13 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact</h3>
             <ul className="space-y-2">
-              <li className="flex items-center">
+              <li className="flex items-center min-h-11">
                 <Mail className="h-5 w-5 text-blue-600 mr-2" />
                 <a href="mailto:support@inboxpilot.com" className="text-gray-600 hover:text-blue-600 transition-colors">
                   support@inboxpilot.com
                 </a>
               </li>
-              <li>
+              <li className="min-h-11 flex items-center">
                 <span className="text-gray-600">+1-800-PILOTAI</span>
               </li>
             </ul>
@@ -125,44 +118,49 @@ const Footer = () => {
           
           <div>
             <h3 className="text-lg font-semibold mb-4">Newsletter</h3>
-            <p className="text-gray-600 mb-4">
-              Subscribe for updates and get a free email productivity guide.
-            </p>
-            <form onSubmit={handleSubscribe}>
-              <div className="flex flex-col space-y-2">
-                <input
-                  type="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  placeholder="Your email"
-                  required
-                  className="px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
-                />
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="blue-gradient text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-300"
-                >
-                  {isSubmitting ? 'Joining...' : 'Join the Pilot Crew!'}
-                </button>
-              </div>
-            </form>
-            {submitResult && (
-              <p className={`mt-2 text-sm ${
-                submitResult.success ? 'text-green-600' : 'text-red-600'
-              }`}>
-                {submitResult.message}
+            <div className="glass-card bg-white/80 p-4 rounded-lg border border-blue-100/50 hover:border-blue-200 hover:shadow-blue-100/30 transition-all duration-300">
+              <p className="text-gray-600 mb-4">
+                Subscribe for updates and get a free email productivity guide.
               </p>
-            )}
+              <form onSubmit={handleSubscribe}>
+                <div className="flex flex-col space-y-2">
+                  <div className="group relative">
+                    <input
+                      type="email"
+                      value={email}
+                      onChange={handleEmailChange}
+                      placeholder="Your email"
+                      required
+                      className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent"
+                    />
+                    <div className="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-blue-600 to-blue-400 scale-x-0 group-focus-within:scale-x-100 transition-transform origin-left"></div>
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={isSubmitting}
+                    className="blue-gradient text-white px-4 py-3 rounded-lg font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center"
+                  >
+                    {isSubmitting ? (
+                      <span className="flex items-center">
+                        <span className="h-4 w-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></span>
+                        Joining...
+                      </span>
+                    ) : (
+                      'Join the Pilot Crew!'
+                    )}
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
         
         <div className="pt-8 border-t border-gray-200">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-600 text-sm mb-4 md:mb-0">
-              © 2025 InboxPilot. All rights reserved. Made with 😄
+              © 2025 InboxPilot. All rights reserved. Made with ❤️ in Pune, India.
             </p>
-            <div className="flex space-x-4 text-sm">
+            <div className="flex flex-wrap gap-4 text-sm">
               <a href="#" className="text-gray-600 hover:text-blue-600 transition-colors">
                 Privacy Policy
               </a>
