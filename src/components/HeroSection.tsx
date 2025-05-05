@@ -64,23 +64,6 @@ const HeroSection = () => {
               <Play className="mr-2 h-4 w-4" /> Watch Demo
             </button>
           </div>
-          
-          {/* Email UI Preview (optional, for larger screens) */}
-          <div className="hidden lg:block w-full max-w-4xl mt-16 animate-fade-in" style={{animationDelay: '0.6s'}}>
-            <div className="glass-card rounded-xl p-6 transform hover:scale-[1.02] transition-all duration-500 backdrop-blur-xl bg-white/30 border border-white/50">
-              <div className="flex gap-4 mt-4 p-4 glass-card rounded-lg bg-white/80">
-                <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold flex-shrink-0">
-                  AI
-                </div>
-                <div>
-                  <h4 className="font-semibold text-lg mb-1">Inbox Analysis Complete</h4>
-                  <p className="text-sm text-gray-700">
-                    I've analyzed your emails and drafted responses for your top 5 priority messages. Would you like to review them?
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
       </div>
 
