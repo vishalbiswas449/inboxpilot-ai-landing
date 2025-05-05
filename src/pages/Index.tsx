@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Navigation from "../components/Navigation";
 import HeroSection from "../components/HeroSection";
 import FeaturesSection from "../components/FeaturesSection";
+import EmailPreviewSection from "../components/EmailPreviewSection";
 import SocialProofSection from "../components/SocialProofSection";
 import TrustedBySection from "../components/TrustedBySection";
 import PricingSection from "../components/PricingSection";
@@ -65,6 +66,7 @@ const Index = () => {
           </div>
           
           <FeaturesSection />
+          <EmailPreviewSection />
           <SocialProofSection />
           <TrustedBySection />
           <PricingSection />
