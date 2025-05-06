@@ -1,15 +1,9 @@
-
 import React from 'react';
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
 
 // Updated company logos with better visibility and consistent sources
 const companies = [{
-  id: "logo-1",
-  description: 'Reddit',
-  image: 'https://www.redditinc.com/assets/images/site/reddit-logo.png',
-  className: "h-12 w-auto"
-}, {
   id: "logo-2",
   description: 'Discord',
   image: 'https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png',
