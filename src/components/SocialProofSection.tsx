@@ -91,7 +91,9 @@ const SocialProofSection = () => {
             onMouseEnter={(e) => {
               // Find and stop the autoscroll
               const emblaNode = e.currentTarget.querySelector('.embla__container');
-              if (emblaNode) emblaNode.style.transform = emblaNode.style.transform;
+              if (emblaNode && emblaNode instanceof HTMLElement) {
+                emblaNode.style.transform = emblaNode.style.transform;
+              }
             }}
             onMouseLeave={(e) => {
               // Resume autoscroll
