@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { PricingSection as PricingSectionUI } from "./ui/pricing-section";
+import { Check } from 'lucide-react';
 
 const PricingSection = () => {
   const handleSubscribe = (plan: string, price: number) => {
@@ -50,11 +51,12 @@ const PricingSection = () => {
               },
               description: "For personal use",
               features: [
-                "Basic AI drafting",
-                "50 emails/day",
-                "Standard support",
-                "5 templates",
-                "Email organization"
+                "Basic AI drafting (5 emails/day)",
+                "Standard email templates (5)",
+                "Email organization",
+                "Community support",
+                "Mobile app access",
+                "Basic analytics dashboard"
               ],
               cta: "Start Free"
             },
@@ -67,11 +69,14 @@ const PricingSection = () => {
               },
               description: "For professionals",
               features: [
-                "Advanced AI drafting",
-                "Unlimited emails",
-                "Priority support",
-                "Complete analytics",
-                "All templates"
+                "Unlimited AI drafting",
+                "Advanced writing styles",
+                "50+ premium templates",
+                "Priority support (24 hours)",
+                "Complete analytics dashboard",
+                "Email scheduling",
+                "Custom signatures",
+                "Calendar integration"
               ],
               cta: "Get Pro",
               popular: true
@@ -87,9 +92,13 @@ const PricingSection = () => {
               features: [
                 "All Pro features",
                 "Team collaboration",
-                "Shared templates",
-                "Admin controls",
-                "Advanced security"
+                "Shared templates library",
+                "Admin controls & permissions",
+                "User activity reporting",
+                "Team inbox management",
+                "Priority support (4 hours)",
+                "API access",
+                "Custom integrations"
               ],
               cta: "Choose Team"
             },
@@ -103,16 +112,32 @@ const PricingSection = () => {
               description: "For organizations",
               features: [
                 "All Team features",
-                "Dedicated account manager",
-                "Custom integrations",
+                "Custom AI training",
+                "Dedicated success manager",
+                "SLA guarantees",
                 "Advanced security features",
-                "SLA guarantees"
+                "Custom branding",
+                "On-premise deployment option",
+                "24/7 premium support",
+                "Compliance documentation"
               ],
               cta: "Contact Us",
               highlighted: true
             }
           ]}
         />
+
+        <div className="mt-16 text-center">
+          <div className="inline-flex flex-col md:flex-row items-center justify-center gap-4 p-6 rounded-lg bg-white shadow-lg border border-blue-100">
+            <div className="flex items-center justify-center bg-blue-100 rounded-full p-3 md:mr-2">
+              <Check className="h-6 w-6 text-blue-600"/>
+            </div>
+            <div className="text-center md:text-left">
+              <h3 className="text-lg font-semibold mb-1">100% Satisfaction Guarantee</h3>
+              <p className="text-gray-600">Try InboxPilot Pro risk-free for 14 days with our money-back guarantee</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

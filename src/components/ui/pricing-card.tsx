@@ -27,7 +27,7 @@ export function PricingCard({
   return (
     <div
       className={cn(
-        "flex h-full flex-col justify-between rounded-xl border-2 bg-white p-5",
+        "flex h-full flex-col justify-between rounded-xl border-2 bg-white p-6 transition-all duration-200 hover:shadow-lg",
         tier.highlighted
           ? "border-blue-600 shadow-lg shadow-blue-100"
           : "border-border",
@@ -37,20 +37,20 @@ export function PricingCard({
       )}
     >
       {tier.popular && (
-        <div className="absolute inset-x-0 top-0 inline-block -translate-y-1/2 transform rounded-full bg-blue-600 px-3 py-1 text-center text-xs font-medium text-white">
+        <div className="absolute inset-x-0 top-0 inline-block -translate-y-1/2 transform rounded-full bg-blue-600 px-4 py-1 text-center text-sm font-medium text-white">
           Most Popular
         </div>
       )}
 
       <div className="mt-3 space-y-5">
-        <div>
-          <h3 className="text-lg font-semibold">{tier.name}</h3>
+        <div className="space-y-1">
+          <h3 className="text-xl font-bold">{tier.name}</h3>
           <p className="text-sm leading-6 text-muted-foreground">
             {tier.description}
           </p>
         </div>
-        <div className="flex items-end gap-2">
-          <span className="text-4xl font-semibold">
+        <div className="flex items-end gap-2 border-b border-gray-100 pb-5">
+          <span className="text-4xl font-bold">
             {typeof tier.price[paymentFrequency.toLowerCase()] === "number"
               ? `$${tier.price[paymentFrequency.toLowerCase()]}`
               : tier.price[paymentFrequency.toLowerCase()]}
@@ -61,21 +61,21 @@ export function PricingCard({
             </span>
           )}
         </div>
-        <ul className="space-y-2.5 text-sm leading-6 text-muted-foreground">
+        <ul className="space-y-3 text-sm leading-6">
           {tier.features.map((feature) => (
-            <li key={feature} className="flex items-center gap-3">
+            <li key={feature} className="flex items-start gap-3">
               <Check className="h-5 w-5 flex-shrink-0 text-blue-600" />
-              <span>{feature}</span>
+              <span className="text-gray-600">{feature}</span>
             </li>
           ))}
         </ul>
       </div>
       <Button
         className={cn(
-          "mt-8 w-full",
+          "mt-8 w-full font-semibold",
           tier.highlighted || tier.popular
             ? "bg-blue-600 hover:bg-blue-700"
-            : "bg-primary"
+            : "bg-primary hover:bg-primary/90"
         )}
       >
         {tier.cta}

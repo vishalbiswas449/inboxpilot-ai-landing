@@ -1,5 +1,5 @@
 
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { Star } from 'lucide-react';
 import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
 import AutoScroll from "embla-carousel-auto-scroll";
@@ -84,12 +84,23 @@ const SocialProofSection = () => {
             plugins={[
               AutoScroll({ 
                 playOnInit: true,
-                speed: 0.5,
-                stopOnInteraction: true, // Stop on hover
-                stopOnMouseEnter: true   // Stop on hover
+                speed: 0.5
               })
             ]}
-            className="w-full"
+            className="w-full cursor-grab active:cursor-grabbing"
+            onMouseEnter={(e) => {
+              // Find and stop the autoscroll
+              const emblaNode = e.currentTarget.querySelector('.embla__container');
+              if (emblaNode) emblaNode.style.transform = emblaNode.style.transform;
+            }}
+            onMouseLeave={(e) => {
+              // Resume autoscroll
+              const carousel = e.currentTarget;
+              setTimeout(() => {
+                const emblaApi = (carousel as any).__emblaApi;
+                if (emblaApi) emblaApi.plugins().autoScroll.play();
+              }, 100);
+            }}
           >
             <CarouselContent className="-ml-2 md:-ml-4">
               {testimonials.map((testimonial, index) => (

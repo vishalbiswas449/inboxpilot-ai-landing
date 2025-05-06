@@ -7,38 +7,38 @@ import AutoScroll from "embla-carousel-auto-scroll";
 const companies = [{
   id: "logo-1",
   description: 'Reddit',
-  image: 'https://upload.wikimedia.org/wikipedia/commons/5/58/Reddit_logo_new.svg',
-  className: "h-10 w-auto"
+  image: 'https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Reddit-512.png',
+  className: "h-12 w-auto"
 }, {
   id: "logo-2",
   description: 'Discord',
-  image: 'https://upload.wikimedia.org/wikipedia/commons/9/99/Discord_logo.svg',
-  className: "h-10 w-auto"
+  image: 'https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png',
+  className: "h-12 w-auto"
 }, {
   id: "logo-3",
   description: 'Notion',
   image: 'https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png',
-  className: "h-10 w-auto"
+  className: "h-12 w-auto"
 }, {
   id: "logo-4",
   description: 'Figma',
   image: 'https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg',
-  className: "h-10 w-auto"
+  className: "h-12 w-auto"
 }, {
   id: "logo-5",
   description: 'Swiggy',
   image: 'https://logosandtypes.com/wp-content/uploads/2021/01/swiggy.svg',
-  className: "h-10 w-auto"
+  className: "h-12 w-auto"
 }, {
   id: "logo-6",
   description: 'Zomato',
   image: 'https://upload.wikimedia.org/wikipedia/commons/7/75/Zomato_logo.png',
-  className: "h-10 w-auto"
+  className: "h-12 w-auto"
 }, {
   id: "logo-7",
   description: 'LinkedIn',
   image: 'https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png',
-  className: "h-10 w-auto"
+  className: "h-12 w-auto"
 }];
 
 const TrustedBySection = () => {
@@ -61,9 +61,9 @@ const TrustedBySection = () => {
                 {companies.map((logo) => (
                   <CarouselItem
                     key={logo.id}
-                    className="flex basis-1/3 justify-center pl-4 sm:basis-1/4 md:basis-1/5 lg:basis-1/6"
+                    className="flex basis-1/4 justify-center pl-4 sm:basis-1/5 md:basis-1/6 lg:basis-1/6"
                   >
-                    <div className="mx-4 flex shrink-0 items-center justify-center h-16">
+                    <div className="mx-2 flex shrink-0 items-center justify-center h-16">
                       <img
                         src={logo.image}
                         alt={logo.description}
