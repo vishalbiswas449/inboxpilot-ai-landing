@@ -4,6 +4,7 @@
 import * as React from "react";
 import { PricingCard, type PricingTier } from "@/components/ui/pricing-card";
 import { Tab } from "@/components/ui/pricing-tab";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface PricingSectionProps {
   title: string;
@@ -21,13 +22,38 @@ export function PricingSection({
   const [selectedFrequency, setSelectedFrequency] = React.useState(frequencies[0]);
 
   return (
-    <section className="flex flex-col items-center gap-10 py-10">
+    <motion.section 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.6 }}
+      className="flex flex-col items-center gap-10 py-12"
+    >
       <div className="space-y-7 text-center">
         <div className="space-y-4">
-          <h1 className="text-4xl font-medium md:text-5xl">{title}</h1>
-          <p className="text-muted-foreground">{subtitle}</p>
+          <motion.h1 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="text-4xl font-bold md:text-5xl bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-blue-400"
+          >
+            {title}
+          </motion.h1>
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="text-muted-foreground max-w-2xl mx-auto"
+          >
+            {subtitle}
+          </motion.p>
         </div>
-        <div className="mx-auto flex w-fit rounded-full bg-muted p-1">
+        
+        <motion.div 
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.5 }}
+          className="mx-auto flex w-fit rounded-full bg-gray-100/80 p-1.5 shadow-inner"
+        >
           {frequencies.map((freq) => (
             <Tab
               key={freq}
@@ -37,18 +63,20 @@ export function PricingSection({
               discount={freq === "yearly"}
             />
           ))}
-        </div>
+        </motion.div>
       </div>
 
-      <div className="grid w-full max-w-6xl gap-6 sm:grid-cols-2 xl:grid-cols-4">
-        {tiers.map((tier) => (
-          <PricingCard
-            key={tier.name}
-            tier={tier}
-            paymentFrequency={selectedFrequency}
-          />
-        ))}
+      <div className="grid w-full max-w-6xl gap-6 sm:grid-cols-2 xl:grid-cols-4 px-4 md:px-0">
+        <AnimatePresence>
+          {tiers.map((tier, i) => (
+            <PricingCard
+              key={tier.id}
+              tier={tier}
+              paymentFrequency={selectedFrequency}
+            />
+          ))}
+        </AnimatePresence>
       </div>
-    </section>
+    </motion.section>
   );
 }

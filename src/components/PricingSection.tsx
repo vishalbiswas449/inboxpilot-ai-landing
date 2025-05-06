@@ -1,13 +1,16 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { PricingSection as PricingSectionUI } from "./ui/pricing-section";
 import { Check } from 'lucide-react';
+import TrialFormModal from './TrialFormModal';
 
 const PricingSection = () => {
+  const [showTrialModal, setShowTrialModal] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState('');
+  
   const handleSubscribe = (plan: string, price: number) => {
-    // This would be connected to Stripe in a real implementation
-    console.log(`Selected plan: ${plan} at $${price}/month`);
-    alert(`In a real implementation, this would redirect to Stripe checkout for the ${plan} plan`);
+    setSelectedPlan(plan);
+    setShowTrialModal(true);
   };
 
   const handleContact = () => {
@@ -19,7 +22,7 @@ const PricingSection = () => {
   };
 
   return (
-    <div className="relative py-24 overflow-hidden bg-gradient-to-b from-white to-blue-50">
+    <div className="relative py-20 overflow-hidden bg-gradient-to-b from-white to-blue-50">
       {/* Background decorations */}
       <div className="absolute inset-0 -z-10 flex items-center justify-center">
         <div className="h-full w-full bg-[linear-gradient(to_right,#4f4f4f1a_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f1a_1px,transparent_1px)] bg-[size:35px_35px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_110%)]" />
@@ -30,7 +33,7 @@ const PricingSection = () => {
       <div className="absolute bottom-1/3 left-1/3 w-72 h-72 bg-blue-300 rounded-full opacity-20 blur-3xl"></div>
       
       <div className="container mx-auto px-4 relative z-10">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-600 text-sm font-medium mb-6">
             <span className="w-2 h-2 bg-blue-600 rounded-full mr-2"></span>
             Pricing Plans
@@ -139,6 +142,12 @@ const PricingSection = () => {
           </div>
         </div>
       </div>
+      
+      {/* Trial Modal */}
+      <TrialFormModal 
+        isOpen={showTrialModal}
+        onClose={() => setShowTrialModal(false)}
+      />
     </div>
   );
 };

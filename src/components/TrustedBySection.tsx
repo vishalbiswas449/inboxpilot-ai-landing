@@ -7,7 +7,7 @@ import AutoScroll from "embla-carousel-auto-scroll";
 const companies = [{
   id: "logo-1",
   description: 'Reddit',
-  image: 'https://cdn4.iconfinder.com/data/icons/social-media-flat-7/64/Social-media_Reddit-512.png',
+  image: 'https://www.redditinc.com/assets/images/site/reddit-logo.png',
   className: "h-12 w-auto"
 }, {
   id: "logo-2",
@@ -43,14 +43,14 @@ const companies = [{
 
 const TrustedBySection = () => {
   return (
-    <section className="relative overflow-hidden bg-white py-16">
+    <section className="relative overflow-hidden bg-white py-8">
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex flex-col items-center text-center">
-          <h2 className="my-6 text-pretty text-2xl font-bold lg:text-3xl">
+          <h2 className="my-4 text-pretty text-2xl font-bold lg:text-3xl">
             Trusted by Industry Leaders
           </h2>
         </div>
-        <div className="pt-6 md:pt-8">
+        <div className="pt-4 md:pt-6">
           <div className="relative mx-auto flex items-center justify-center">
             <Carousel
               opts={{ loop: true, align: "start" }}

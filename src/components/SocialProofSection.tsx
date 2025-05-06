@@ -45,7 +45,7 @@ const testimonials = [
 
 const SocialProofSection = () => {
   return (
-    <section className="py-24 relative overflow-hidden bg-[#f8fafc]">
+    <section className="py-20 relative overflow-hidden bg-[#f8fafc]">
       <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-[120px] opacity-30 -z-10"></div>
       <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-300 rounded-full filter blur-[100px] opacity-25 -z-10"></div>
       
@@ -84,7 +84,7 @@ const SocialProofSection = () => {
             plugins={[
               AutoScroll({ 
                 playOnInit: true,
-                speed: 0.5
+                speed: 0.7
               })
             ]}
             className="w-full cursor-grab active:cursor-grabbing"
@@ -110,7 +110,7 @@ const SocialProofSection = () => {
                   key={index} 
                   className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/3"
                 >
-                  <div className="glass-card flex-shrink-0 h-full bg-white/70 rounded-xl p-6 border border-transparent hover:border-blue-200 hover:shadow-lg transition-all">
+                  <div className="flex-shrink-0 h-full bg-white/90 rounded-xl p-6 border border-blue-100 hover:border-blue-200 transition-all">
                     <div className="flex items-center mb-4">
                       {[...Array(5)].map((_, i) => (
                         <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" />

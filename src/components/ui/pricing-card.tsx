@@ -2,6 +2,7 @@
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 export interface PricingTier {
   id: string;
@@ -24,10 +25,17 @@ export function PricingCard({
   tier: PricingTier;
   paymentFrequency: string;
 }) {
+  const isYearly = paymentFrequency.toLowerCase() === "yearly";
+  const priceValue = tier.price[paymentFrequency.toLowerCase()];
+  const isNumericPrice = typeof priceValue === "number";
+  
   return (
-    <div
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
       className={cn(
-        "flex h-full flex-col justify-between rounded-xl border-2 bg-white p-6 transition-all duration-200 hover:shadow-lg",
+        "group flex h-full flex-col justify-between rounded-xl border-2 bg-white p-6 transition-all duration-200 hover:shadow-lg",
         tier.highlighted
           ? "border-blue-600 shadow-lg shadow-blue-100"
           : "border-border",
@@ -37,8 +45,10 @@ export function PricingCard({
       )}
     >
       {tier.popular && (
-        <div className="absolute inset-x-0 top-0 inline-block -translate-y-1/2 transform rounded-full bg-blue-600 px-4 py-1 text-center text-sm font-medium text-white">
-          Most Popular
+        <div className="absolute inset-x-0 top-0 -translate-y-1/2 transform">
+          <div className="inline-flex animate-shimmer items-center justify-center rounded-full bg-gradient-to-r from-blue-600 via-blue-400 to-blue-600 bg-[length:200%_100%] px-4 py-1 text-sm font-medium text-white shadow-md">
+            Most Popular
+          </div>
         </div>
       )}
 
@@ -50,21 +60,35 @@ export function PricingCard({
           </p>
         </div>
         <div className="flex items-end gap-2 border-b border-gray-100 pb-5">
-          <span className="text-4xl font-bold">
-            {typeof tier.price[paymentFrequency.toLowerCase()] === "number"
-              ? `$${tier.price[paymentFrequency.toLowerCase()]}`
-              : tier.price[paymentFrequency.toLowerCase()]}
-          </span>
-          {typeof tier.price[paymentFrequency.toLowerCase()] === "number" && (
-            <span className="mb-1 text-sm font-medium text-muted-foreground">
-              /{paymentFrequency.toLowerCase() === "monthly" ? "mo" : "yr"}
+          <motion.div 
+            key={`${tier.id}-${paymentFrequency}`}
+            initial={{ opacity: 0, y: -5 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="flex items-end"
+          >
+            <span className="text-4xl font-bold">
+              {isNumericPrice ? `$${priceValue}` : priceValue}
+            </span>
+            {isNumericPrice && (
+              <span className="mb-1 ml-1 text-sm font-medium text-muted-foreground">
+                /{isYearly ? "yr" : "mo"}
+              </span>
+            )}
+          </motion.div>
+          
+          {isNumericPrice && isYearly && (
+            <span className="mb-1 rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+              Save 20%
             </span>
           )}
         </div>
         <ul className="space-y-3 text-sm leading-6">
           {tier.features.map((feature) => (
             <li key={feature} className="flex items-start gap-3">
-              <Check className="h-5 w-5 flex-shrink-0 text-blue-600" />
+              <div className="rounded-full bg-blue-50 p-1 text-blue-600">
+                <Check className="h-4 w-4 flex-shrink-0" />
+              </div>
               <span className="text-gray-600">{feature}</span>
             </li>
           ))}
@@ -72,7 +96,7 @@ export function PricingCard({
       </div>
       <Button
         className={cn(
-          "mt-8 w-full font-semibold",
+          "mt-8 w-full font-semibold group-hover:scale-[1.02] transition-transform",
           tier.highlighted || tier.popular
             ? "bg-blue-600 hover:bg-blue-700"
             : "bg-primary hover:bg-primary/90"
@@ -80,6 +104,6 @@ export function PricingCard({
       >
         {tier.cta}
       </Button>
-    </div>
+    </motion.div>
   );
 }

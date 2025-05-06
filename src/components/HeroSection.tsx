@@ -5,14 +5,14 @@ import RotatingText from './RotatingText';
 import VideoModal from './VideoModal';
 import { AvatarGroup } from './ui/avatar-group';
 import { Particles } from './ui/particles';
+import TrialFormModal from './TrialFormModal';
 
 const HeroSection = () => {
   const [showVideoModal, setShowVideoModal] = useState(false);
+  const [showTrialModal, setShowTrialModal] = useState(false);
   
   const handleGetStarted = () => {
-    // This would be connected to Stripe in a real implementation
-    console.log('Get Started clicked - would redirect to Stripe checkout');
-    alert('In a real implementation, this would redirect to Stripe checkout');
+    setShowTrialModal(true);
   };
 
   const handleWatchDemo = () => {
@@ -20,7 +20,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-blue-50 to-white py-20">
+    <section id="home" className="relative min-h-screen flex items-center overflow-hidden bg-gradient-to-b from-blue-50 to-white pt-24 pb-16">
       {/* Particles background effect */}
       <Particles
         className="absolute inset-0"
@@ -36,7 +36,7 @@ const HeroSection = () => {
           <AvatarGroup />
           
           {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-fade-in mt-6" style={{animationDelay: '0.2s'}}>
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6 animate-fade-in" style={{animationDelay: '0.2s'}}>
             Revolutionize Your Email with InboxPilot's{' '}
             <RotatingText texts={["Assistant", "AI Intelligence", "Smart Email"]} />
           </h1>
@@ -70,6 +70,12 @@ const HeroSection = () => {
         isOpen={showVideoModal}
         onClose={() => setShowVideoModal(false)}
         videoUrl="https://www.youtube.com/watch?v=79DijItQXMM"
+      />
+      
+      {/* Trial Modal */}
+      <TrialFormModal 
+        isOpen={showTrialModal}
+        onClose={() => setShowTrialModal(false)}
       />
     </section>
   );

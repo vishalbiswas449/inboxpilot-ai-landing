@@ -3,15 +3,28 @@ import React, { useState } from 'react';
 import { MapPin, Phone } from 'lucide-react';
 import { Button } from './ui/button';
 import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
 
-const ContactUsSection = () => {
-  const [formData, setFormData] = useState({
+export interface ContactFormData {
+  name: string;
+  email: string;
+  message: string;
+  acceptTerms: boolean;
+}
+
+export const ContactForm = ({
+  onSubmit,
+  isSubmitting,
+  className = "",
+  buttonText = "Enhance My Inbox",
+  isModal = false,
+}) => {
+  const [formData, setFormData] = useState<ContactFormData>({
     name: '',
     email: '',
     message: '',
     acceptTerms: false
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -30,30 +43,124 @@ const ContactUsSection = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (!formData.name || !formData.email || !formData.message) {
+    onSubmit(formData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className={`space-y-6 ${className}`}>
+      <div>
+        <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+          Full Name <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          value={formData.name}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+          placeholder="Your name"
+          required
+        />
+      </div>
+      
+      <div>
+        <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+          Email Address <span className="text-red-500">*</span>
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          value={formData.email}
+          onChange={handleChange}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+          placeholder="your@email.com"
+          required
+        />
+      </div>
+      
+      <div>
+        <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+          Message <span className="text-red-500">*</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          rows={isModal ? 3 : 5}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+          placeholder="How can we help you?"
+          required
+        ></textarea>
+      </div>
+      
+      <div className="flex items-start">
+        <input
+          type="checkbox"
+          id="terms"
+          name="acceptTerms"
+          checked={formData.acceptTerms}
+          onChange={handleCheckboxChange}
+          className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+          required
+        />
+        <label htmlFor="terms" className="ml-2 block text-sm text-gray-600">
+          I accept the <a href="#" className="text-blue-600 hover:underline">Terms of Service</a> and <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
+        </label>
+      </div>
+      
+      <Button
+        type="submit"
+        className="w-full bg-blue-600 hover:bg-blue-700 transition-colors"
+        disabled={isSubmitting}
+      >
+        {isSubmitting ? 'Submitting...' : buttonText}
+      </Button>
+    </form>
+  );
+};
+
+const ContactUsSection = () => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleContactSubmit = async (data: ContactFormData) => {
+    if (!data.name || !data.email || !data.message) {
       toast.error('Please fill in all required fields');
       return;
     }
     
-    if (!formData.acceptTerms) {
+    if (!data.acceptTerms) {
       toast.error('Please accept the Terms of Service');
       return;
     }
     
     setIsSubmitting(true);
     
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Insert the contact submission into Supabase
+      const { error } = await supabase
+        .from('contact_submissions')
+        .insert([
+          { 
+            name: data.name,
+            email: data.email,
+            message: data.message
+          }
+        ]);
+        
+      if (error) {
+        throw error;
+      }
+      
       toast.success('Your message has been sent successfully!');
-      setFormData({
-        name: '',
-        email: '',
-        message: '',
-        acceptTerms: false
-      });
       setIsSubmitting(false);
-    }, 1500);
+    } catch (error: any) {
+      console.error('Error submitting form:', error);
+      toast.error(error.message || 'An error occurred. Please try again later.');
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -99,77 +206,10 @@ const ContactUsSection = () => {
           <div className="bg-white rounded-xl p-8 shadow-lg border border-gray-100">
             <h2 className="text-3xl font-bold mb-6 text-gray-800">Get started with a free quotation</h2>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                  Full Name <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="Your name"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Email Address <span className="text-red-500">*</span>
-                </label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  value={formData.email}
-                  onChange={handleChange}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="your@email.com"
-                  required
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
-                  Message <span className="text-red-500">*</span>
-                </label>
-                <textarea
-                  id="message"
-                  name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={5}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-                  placeholder="How can we help you?"
-                  required
-                ></textarea>
-              </div>
-              
-              <div className="flex items-start">
-                <input
-                  type="checkbox"
-                  id="terms"
-                  name="acceptTerms"
-                  checked={formData.acceptTerms}
-                  onChange={handleCheckboxChange}
-                  className="mt-1 h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="terms" className="ml-2 block text-sm text-gray-600">
-                  I accept the <a href="#" className="text-blue-600 hover:underline">Terms of Service</a> and <a href="#" className="text-blue-600 hover:underline">Privacy Policy</a>
-                </label>
-              </div>
-              
-              <Button
-                type="submit"
-                className="w-full bg-blue-600 hover:bg-blue-700 transition-colors"
-                disabled={isSubmitting}
-              >
-                {isSubmitting ? 'Submitting...' : 'Enhance My Inbox'}
-              </Button>
-            </form>
+            <ContactForm 
+              onSubmit={handleContactSubmit}
+              isSubmitting={isSubmitting}
+            />
           </div>
         </div>
       </div>
