@@ -54,7 +54,7 @@ const TrialFormModal = ({ isOpen, onClose }: TrialFormModalProps) => {
   
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] bg-white/80 backdrop-blur-lg border border-white/20 rounded-2xl shadow-xl">
+      <DialogContent className="sm:max-w-[500px] bg-white/95 backdrop-blur-sm border border-white/20 rounded-2xl shadow-xl">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-center">Start Your Free Trial</DialogTitle>
           <DialogDescription className="text-center">

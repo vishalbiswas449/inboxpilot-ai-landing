@@ -61,10 +61,10 @@ const Index = () => {
       }
     };
     
-    // Simulate loading time
+    // Simulate loading time - shorter for better UX
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1500);
     
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -97,10 +97,12 @@ const Index = () => {
           <main>
             <HeroSection />
             
-            {/* Trusted By Section - Moved just below Hero */}
-            <TrustedBySection />
+            {/* Trusted By Section - Moved up with reduced space */}
+            <div className="pb-4">
+              <TrustedBySection />
+            </div>
             
-            {/* Email Preview Section - Next section after Trusted By */}
+            {/* Email Preview Section */}
             <EmailPreviewSection />
             
             <div className="relative">
@@ -113,30 +115,36 @@ const Index = () => {
               </div>
               
               <FeaturesSection />
-              <SocialProofSection />
+              
+              {/* Social Proof Section - removed shadow */}
+              <div className="py-16">
+                <SocialProofSection />
+              </div>
               
               {/* Pricing Section */}
-              <div id="pricing" className="relative overflow-hidden">
+              <div id="pricing" className="relative overflow-hidden py-16">
                 <PricingSection />
               </div>
               
               {/* FAQ Section */}
-              <FaqSection 
-                title="Frequently Asked Questions"
-                description="Everything you need to know about InboxPilot"
-                items={FAQS}
-                contactInfo={{
-                  title: "Still have questions?",
-                  description: "Our support team is here to help you",
-                  buttonText: "Contact Support",
-                  onContact: () => {
-                    const contactSection = document.getElementById('contact');
-                    if (contactSection) {
-                      contactSection.scrollIntoView({ behavior: 'smooth' });
+              <div className="py-16">
+                <FaqSection 
+                  title="Frequently Asked Questions"
+                  description="Everything you need to know about InboxPilot"
+                  items={FAQS}
+                  contactInfo={{
+                    title: "Still have questions?",
+                    description: "Our support team is here to help you",
+                    buttonText: "Contact Support",
+                    onContact: () => {
+                      const contactSection = document.getElementById('contact');
+                      if (contactSection) {
+                        contactSection.scrollIntoView({ behavior: 'smooth' });
+                      }
                     }
-                  }
-                }}
-              />
+                  }}
+                />
+              </div>
               
               <AboutSection />
               

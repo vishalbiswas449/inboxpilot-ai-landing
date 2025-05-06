@@ -164,7 +164,7 @@ const ContactUsSection = () => {
   };
 
   return (
-    <section id="contact" className="py-20 bg-gradient-to-b from-blue-50 to-white">
+    <section id="contact" className="py-16 bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-4 md:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
           {/* Left Column - Contact Information */}
