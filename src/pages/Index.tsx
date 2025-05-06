@@ -8,13 +8,37 @@ import SocialProofSection from "../components/SocialProofSection";
 import TrustedBySection from "../components/TrustedBySection";
 import PricingSection from "../components/PricingSection";
 import AboutSection from "../components/AboutSection";
-import ContactSection from "../components/ContactSection";
+import ContactUsSection from "../components/ContactUsSection";
 import Footer from "../components/Footer";
 import { ArrowUp } from "lucide-react";
+import { FaqSection } from "../components/ui/faq-section";
 
 const Index = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   
+  const FAQS = [
+    {
+      question: "How does InboxPilot's AI email enhancement work?",
+      answer: "Our AI analyzes your email content, tone, and purpose to generate improved versions that are more professional, concise, or persuasive. It preserves your original meaning while enhancing clarity, structure, and impact.",
+    },
+    {
+      question: "Is my email data secure with InboxPilot?",
+      answer: "Absolutely. We use enterprise-grade encryption and strict privacy protocols to ensure your email data remains completely private and secure. We never store your email content after processing, and we don't use your data to train our AI models.",
+    },
+    {
+      question: "Can I customize the AI's writing style?",
+      answer: "Yes! You can choose from multiple enhancement styles including Professional, Concise, Friendly, Persuasive, Formal, and Casual. Each premium plan also allows you to create custom style profiles that match your unique voice.",
+    },
+    {
+      question: "Which email providers does InboxPilot work with?",
+      answer: "InboxPilot seamlessly integrates with all major email providers including Gmail, Outlook, Apple Mail, Yahoo, and most professional email services. Our browser extension and mobile apps make it easy to enhance emails directly in your preferred platform.",
+    },
+    {
+      question: "What's the difference between free and paid plans?",
+      answer: "Our free plan offers basic email enhancement with limited templates and styles. Paid plans unlock unlimited enhancements, advanced customization options, premium templates, priority support, and additional features like scheduling and analytics.",
+    },
+  ];
+
   useEffect(() => {
     // Update document title for SEO
     document.title = "InboxPilot - AI-Powered Email Assistant";
@@ -56,6 +80,12 @@ const Index = () => {
       <main>
         <HeroSection />
         
+        {/* Email Preview Section - Moved just below Hero */}
+        <EmailPreviewSection />
+        
+        {/* Trusted By Section */}
+        <TrustedBySection />
+
         <div className="relative">
           {/* Decorative dividers */}
           <div className="absolute top-0 left-0 w-full overflow-hidden leading-0 transform rotate-180">
@@ -66,12 +96,114 @@ const Index = () => {
           </div>
           
           <FeaturesSection />
-          <EmailPreviewSection />
           <SocialProofSection />
-          <TrustedBySection />
-          <PricingSection />
+          
+          {/* Custom Pricing Section */}
+          <div id="pricing" className="py-24 relative overflow-hidden bg-[#f8fafc]">
+            <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-200 rounded-full filter blur-[120px] opacity-40 -z-10"></div>
+            <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-300 rounded-full filter blur-[100px] opacity-30 -z-10"></div>
+            
+            <PricingSection 
+              title="Simple Pricing" 
+              subtitle="Choose the best plan for your needs"
+              frequencies={["Monthly", "Yearly"]}
+              tiers={[
+                {
+                  id: "free",
+                  name: "Free",
+                  price: {
+                    monthly: "$0",
+                    yearly: "$0",
+                  },
+                  description: "For personal use",
+                  features: [
+                    "Basic AI drafting",
+                    "50 emails/day",
+                    "Standard support",
+                    "5 templates",
+                    "Email organization"
+                  ],
+                  cta: "Start Free"
+                },
+                {
+                  id: "pro",
+                  name: "Pro",
+                  price: {
+                    monthly: 15,
+                    yearly: 150,
+                  },
+                  description: "For professionals",
+                  features: [
+                    "Advanced AI drafting",
+                    "Unlimited emails",
+                    "Priority support",
+                    "Complete analytics",
+                    "All templates"
+                  ],
+                  cta: "Get Pro",
+                  popular: true
+                },
+                {
+                  id: "team",
+                  name: "Team",
+                  price: {
+                    monthly: 49,
+                    yearly: 490,
+                  },
+                  description: "For small teams",
+                  features: [
+                    "All Pro features",
+                    "Team collaboration",
+                    "Shared templates",
+                    "Admin controls",
+                    "Advanced security"
+                  ],
+                  cta: "Choose Team"
+                },
+                {
+                  id: "enterprise",
+                  name: "Enterprise",
+                  price: {
+                    monthly: "Custom",
+                    yearly: "Custom",
+                  },
+                  description: "For organizations",
+                  features: [
+                    "All Team features",
+                    "Dedicated account manager",
+                    "Custom integrations",
+                    "Advanced security features",
+                    "SLA guarantees"
+                  ],
+                  cta: "Contact Us",
+                  highlighted: true
+                }
+              ]}
+            />
+          </div>
+          
+          {/* FAQ Section */}
+          <FaqSection 
+            title="Frequently Asked Questions"
+            description="Everything you need to know about InboxPilot"
+            items={FAQS}
+            contactInfo={{
+              title: "Still have questions?",
+              description: "Our support team is here to help you",
+              buttonText: "Contact Support",
+              onContact: () => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }
+            }}
+          />
+          
           <AboutSection />
-          <ContactSection />
+          
+          {/* Contact Us Section */}
+          <ContactUsSection />
         </div>
       </main>
       

@@ -1,12 +1,11 @@
 
 import React, { useState, useEffect } from 'react';
-import { ArrowDown, Copy, Loader } from 'lucide-react';
+import { ArrowDown, Copy, Loader, X } from 'lucide-react';
 import { Input } from './ui/input';
 import { Textarea } from './ui/textarea';
 import { Button } from './ui/button';
 import { Card, CardContent } from './ui/card';
 import { toast } from 'sonner';
-import { supabase } from '@/integrations/supabase/client';
 
 const EmailPreviewSection = () => {
   const [emailContent, setEmailContent] = useState('');
@@ -31,6 +30,21 @@ const EmailPreviewSection = () => {
       name: 'Proposal',
       subject: 'Proposal for your consideration',
       content: `Dear [Name],\n\nAttached is the proposal we discussed for the new project. I've included the budget breakdown, timeline, and deliverables as we discussed. Please let me know if you'd like any changes or have questions about any part of it.\n\nI believe this approach will help us achieve the goals we discussed while staying within the allocated resources.\n\nBest regards,\n[Your Name]`
+    },
+    {
+      name: 'Job Resignation',
+      subject: 'Resignation - [Your Name]',
+      content: `Dear [Manager's Name],\n\nPlease accept this letter as formal notification that I am resigning from my position as [Your Position] with [Company Name]. My last day will be [Date, typically two weeks from today].\n\nI appreciate the opportunities for professional and personal development that you have provided during my time at the company. Thank you for your support and guidance.\n\nI will do everything possible to ensure a smooth transition before my departure, including completing ongoing projects and helping train my replacement.\n\nSincerely,\n[Your Name]`
+    },
+    {
+      name: 'College Assignment Submission',
+      subject: 'Submission: [Course Code] Assignment',
+      content: `Dear Professor [Name],\n\nI am writing to submit my assignment for [Course Name] as requested. The assignment covers [brief description of what the assignment covers].\n\nI have addressed all the requirements outlined in the assignment brief and have included my research findings, analysis, and conclusions. I've also attached any relevant documents as required.\n\nPlease let me know if you need any clarification or have questions about my submission.\n\nThank you for your consideration.\n\nSincerely,\n[Your Name]\n[Student ID]`
+    },
+    {
+      name: 'Employee Time-Off Request',
+      subject: 'Time Off Request: [Dates]',
+      content: `Dear [Manager's Name],\n\nI would like to request time off from [Start Date] to [End Date]. I will be back in the office on [Return Date].\n\nI have already arranged for [Colleague's Name] to cover my essential duties during my absence, and I will complete all pending tasks before my departure.\n\nPlease let me know if you need any additional information or have concerns about this request.\n\nThank you for your consideration.\n\nBest regards,\n[Your Name]`
     }
   ];
 
@@ -38,7 +52,9 @@ const EmailPreviewSection = () => {
     { id: 'professional', label: 'Professional' },
     { id: 'concise', label: 'Concise' },
     { id: 'friendly', label: 'Friendly' },
-    { id: 'persuasive', label: 'Persuasive' }
+    { id: 'persuasive', label: 'Persuasive' },
+    { id: 'formal', label: 'Formal' },
+    { id: 'casual', label: 'Casual' }
   ];
 
   const selectTemplate = (template) => {
@@ -58,24 +74,51 @@ const EmailPreviewSection = () => {
     setEnhancedEmail('');
 
     try {
-      const { data, error } = await supabase.functions.invoke('enhance-email', {
-        body: { emailContent, enhancementType }
-      });
-
-      if (error) {
-        console.error('Error enhancing email:', error);
-        toast.error('Failed to enhance your email. Please try again.');
-        return;
-      }
-
-      setEnhancedEmail(data.enhancedEmail);
-      toast.success('Email enhanced successfully!');
+      // Simulate API call delay since we don't have the actual integration
+      setTimeout(() => {
+        // Generate a more professional version of the email content
+        let enhanced = '';
+        
+        switch (enhancementType) {
+          case 'professional':
+            enhanced = `Dear [Name],\n\nI hope this email finds you well. ${emailContent.replace(/^(Hi|Hello|Dear).*?\n\n/i, '')}\n\nShould you have any questions or require further information, please do not hesitate to contact me.\n\nThank you for your time and consideration.\n\nBest regards,\n[Your Name]`;
+            break;
+          case 'concise':
+            enhanced = `[Name],\n\n${emailContent.replace(/^(Hi|Hello|Dear).*?\n\n/i, '').replace(/\n\n(Best|Kind|Regards|Sincerely).*$/i, '')}\n\nRegards,\n[Your Name]`;
+            break;
+          case 'friendly':
+            enhanced = `Hey [Name]!\n\nHope you're doing fantastic! ${emailContent.replace(/^(Hi|Hello|Dear).*?\n\n/i, '')}\n\nLooking forward to hearing from you soon!\n\nCheers,\n[Your Name]`;
+            break;
+          case 'persuasive':
+            enhanced = `Dear [Name],\n\nI'm reaching out because I believe this opportunity could be transformative for you. ${emailContent.replace(/^(Hi|Hello|Dear).*?\n\n/i, '')}\n\nI'm confident you'll find this beneficial, and I'm excited to discuss how we can move forward together.\n\nWarm regards,\n[Your Name]`;
+            break;
+          case 'formal':
+            enhanced = `Dear [Name],\n\nI am writing to inform you regarding ${emailContent.replace(/^(Hi|Hello|Dear).*?\n\n/i, '').replace(/\n\n(Best|Kind|Regards|Sincerely).*$/i, '')}\n\nPlease do not hesitate to contact me should you require any further information.\n\nYours sincerely,\n[Your Name]`;
+            break;
+          case 'casual':
+            enhanced = `Hi [Name],\n\nJust wanted to touch base about ${emailContent.replace(/^(Hi|Hello|Dear).*?\n\n/i, '').replace(/\n\n(Best|Kind|Regards|Sincerely).*$/i, '')}\n\nThanks,\n[Your Name]`;
+            break;
+          default:
+            enhanced = emailContent;
+        }
+        
+        setEnhancedEmail(enhanced);
+        toast.success('Email enhanced successfully!');
+        setIsLoading(false);
+      }, 1500);
     } catch (err) {
-      console.error('Error calling enhance-email function:', err);
+      console.error('Error enhancing email:', err);
       toast.error('An error occurred. Please try again later.');
-    } finally {
       setIsLoading(false);
     }
+  };
+
+  const clearAll = () => {
+    setEmailContent('');
+    setEnhancedEmail('');
+    setSubject('');
+    setTemplateSelected(false);
+    toast.success('All fields cleared!');
   };
 
   const copyToClipboard = (text) => {
@@ -86,9 +129,9 @@ const EmailPreviewSection = () => {
   };
 
   return (
-    <section id="email-preview" className="py-20 bg-gradient-to-b from-white to-blue-50">
+    <section id="email-preview" className="py-16 bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto px-4 md:px-6">
-        <div className="text-center mb-12">
+        <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">Try InboxPilot's Email Enhancement</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             See how our AI can transform your emails in seconds. Type your draft below or use a template, 
@@ -103,7 +146,7 @@ const EmailPreviewSection = () => {
               <CardContent className="p-4">
                 <h3 className="font-medium text-lg mb-3">Email Templates</h3>
                 <p className="text-sm text-gray-500 mb-4">Start with one of our templates</p>
-                <div className="flex flex-col gap-3">
+                <div className="flex flex-col gap-3 max-h-[350px] overflow-y-auto scrollbar-hide">
                   {emailTemplates.map((template, index) => (
                     <Button
                       key={index}
@@ -125,7 +168,19 @@ const EmailPreviewSection = () => {
           {/* Email Editor - Mobile: Full Width, Desktop: 9 columns */}
           <div className="lg:col-span-9 order-1 lg:order-2">
             <Card className="bg-white shadow-md">
-              <CardContent className="p-6">
+              <CardContent className="p-6 relative">
+                {/* Clear All Button */}
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="absolute top-2 right-2 h-8 w-8 p-0 rounded-full" 
+                  onClick={clearAll}
+                  title="Clear all fields"
+                >
+                  <X size={16} />
+                  <span className="sr-only">Clear all</span>
+                </Button>
+                
                 <div className="mb-4">
                   <label className="text-sm font-medium mb-1 block">Subject</label>
                   <Input
@@ -149,16 +204,18 @@ const EmailPreviewSection = () => {
                         rows={12}
                         className="w-full resize-none mb-2 font-normal"
                       />
-                      <div className="absolute bottom-3 right-3">
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          className="h-7 w-7 p-0"
-                          onClick={() => copyToClipboard(emailContent)}
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                      </div>
+                      {emailContent && (
+                        <div className="absolute bottom-3 right-3">
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            className="h-7 w-7 p-0"
+                            onClick={() => copyToClipboard(emailContent)}
+                          >
+                            <Copy className="h-4 w-4" />
+                          </Button>
+                        </div>
+                      )}
                     </div>
 
                     {/* Enhancement Options */}
@@ -180,7 +237,7 @@ const EmailPreviewSection = () => {
 
                     {/* Action Button */}
                     <Button 
-                      className="mt-4 w-full"
+                      className="mt-4 w-full bg-blue-600 hover:bg-blue-700"
                       onClick={enhanceEmail}
                       disabled={isLoading || !emailContent.trim()}
                     >
@@ -243,11 +300,14 @@ const EmailPreviewSection = () => {
           </div>
         </div>
 
-        <div className="mt-12 text-center">
+        <div className="mt-8 text-center">
           <p className="text-gray-600 italic mb-6">
             "This is just a preview. Sign up to unlock more powerful email features!"
           </p>
-          <Button onClick={() => console.log("Start free trial clicked")} className="bg-blue-600 hover:bg-blue-700">
+          <Button 
+            onClick={() => toast.success("Free trial started!")} 
+            className="bg-blue-600 hover:bg-blue-700"
+          >
             Start Free Trial
           </Button>
         </div>

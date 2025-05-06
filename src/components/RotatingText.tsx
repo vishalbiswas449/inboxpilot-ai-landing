@@ -14,25 +14,35 @@ const RotatingText = ({
 }: RotatingTextProps) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [displayText, setDisplayText] = useState(texts[0]);
 
   useEffect(() => {
     const timer = setInterval(() => {
       setIsAnimating(true);
+      
       setTimeout(() => {
-        setCurrentIndex(prevIndex => (prevIndex + 1) % texts.length);
-        setIsAnimating(false);
-      }, 1000); // Fade out duration
+        const nextIndex = (currentIndex + 1) % texts.length;
+        setCurrentIndex(nextIndex);
+        setDisplayText(texts[nextIndex]);
+        
+        setTimeout(() => {
+          setIsAnimating(false);
+        }, 100); // Very short delay to make animation look smoother
+      }, 500); // Fade out duration
     }, interval);
     
     return () => clearInterval(timer);
-  }, [texts, interval]);
+  }, [texts, interval, currentIndex]);
 
   return (
-    <span className={`relative inline-block min-w-[150px] text-left ${className}`}>
-      <span className={`absolute text-blue-600 transition-opacity duration-1000 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}>
-        {texts[currentIndex]}
+    <span className={`relative inline-block min-w-[200px] text-blue-600 ${className}`}>
+      <span 
+        className={`absolute inset-0 transition-opacity duration-500 ${isAnimating ? 'opacity-0' : 'opacity-100'}`}
+        aria-hidden={isAnimating}
+      >
+        {displayText}
       </span>
-      <span className="opacity-0 text-center">
+      <span className="opacity-0 select-none" aria-hidden="true">
         {texts.reduce((a, b) => a.length > b.length ? a : b)}
       </span>
     </span>

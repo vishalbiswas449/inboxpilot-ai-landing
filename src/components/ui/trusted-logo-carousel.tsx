@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 
 interface Logo {
@@ -15,7 +15,7 @@ interface TrustedLogoCarouselProps {
   className?: string;
 }
 
-const TrustedLogoCarousel: React.FC<TrustedLogoCarouselProps> = ({
+const TrustedLogoCarousel = ({
   heading = "Trusted by these companies",
   logos = [
     {
@@ -68,77 +68,87 @@ const TrustedLogoCarousel: React.FC<TrustedLogoCarouselProps> = ({
     },
   ],
   className,
-}) => {
+}: TrustedLogoCarouselProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
-  const scrollPosition = useRef(0);
-  const animationRef = useRef<number | null>(null);
-  
-  const scroll = () => {
-    if (!scrollRef.current) return;
-    
-    const { scrollWidth, clientWidth } = scrollRef.current;
-    
-    // Increment scroll position
-    scrollPosition.current += 0.5;
-    
-    // Reset when we've scrolled the full width
-    if (scrollPosition.current >= scrollWidth / 2) {
-      scrollPosition.current = 0;
-    }
-    
-    // Apply the scroll position
-    if (scrollRef.current) {
-      scrollRef.current.style.transform = `translateX(${-scrollPosition.current}px)`;
-    }
-    
-    // Continue animation
-    animationRef.current = requestAnimationFrame(scroll);
-  };
   
   useEffect(() => {
-    // Start the animation
-    animationRef.current = requestAnimationFrame(scroll);
-    
-    // Clean up animation on unmount
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
+    const scrollContainer = scrollRef.current;
+    if (!scrollContainer) return;
+
+    // Clone the logos and append them to achieve infinite scroll effect
+    const cloneAndAppendLogos = () => {
+      const logosDiv = scrollContainer.querySelector('.logo-container');
+      if (!logosDiv) return;
+      
+      const clone = logosDiv.cloneNode(true);
+      scrollContainer.appendChild(clone);
     };
-  }, []);
-  
-  // Create a doubled list of logos for seamless scrolling
-  const allLogos = [...logos, ...logos];
-  
+    
+    cloneAndAppendLogos();
+    
+    // Set up the animation
+    let animationId: number;
+    let startTime: number;
+    const duration = 20000; // 20 seconds for one complete scroll
+    
+    const animate = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const elapsed = timestamp - startTime;
+      
+      const progress = (elapsed % duration) / duration;
+      const translateX = progress * -100;
+      
+      if (scrollContainer) {
+        scrollContainer.style.transform = `translateX(${translateX}%)`;
+      }
+      
+      animationId = requestAnimationFrame(animate);
+    };
+    
+    animationId = requestAnimationFrame(animate);
+    
+    return () => {
+      cancelAnimationFrame(animationId);
+    };
+  }, [logos]);
+
   return (
-    <section className={cn("py-32", className)}>
+    <section className={cn("py-16", className)}>
       <div className="container flex flex-col items-center text-center">
         <h1 className="my-6 text-pretty text-2xl font-bold lg:text-4xl">
           {heading}
         </h1>
       </div>
-      <div className="pt-10 md:pt-16 lg:pt-20">
-        <div className="relative mx-auto flex items-center justify-center overflow-hidden lg:max-w-5xl">
-          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background to-transparent z-10"></div>
-          
-          <div className="overflow-hidden">
+      <div className="pt-10 md:pt-8 overflow-hidden">
+        <div className="relative mx-auto flex items-center justify-center">
+          <div className="w-full overflow-hidden relative">
             <div 
               ref={scrollRef}
-              className="flex items-center"
+              className="flex items-center logo-scroll"
+              style={{
+                width: "200%", // Important for animation
+                display: "flex",
+                flexDirection: "row"
+              }}
             >
-              {allLogos.map((logo, index) => (
-                <div key={`${logo.id}-${index}`} className="mx-10 flex shrink-0 items-center justify-center">
-                  <img
-                    src={logo.image}
-                    alt={logo.description}
-                    className={logo.className}
-                  />
-                </div>
-              ))}
+              <div className="logo-container flex items-center justify-around min-w-full">
+                {logos.map((logo) => (
+                  <div
+                    key={logo.id}
+                    className="mx-8 flex items-center justify-center"
+                  >
+                    <img
+                      src={logo.image}
+                      alt={logo.description}
+                      className={logo.className}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
-          
-          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent z-10"></div>
+          <div className="absolute inset-y-0 left-0 w-12 bg-gradient-to-r from-background to-transparent"></div>
+          <div className="absolute inset-y-0 right-0 w-12 bg-gradient-to-l from-background to-transparent"></div>
         </div>
       </div>
     </section>

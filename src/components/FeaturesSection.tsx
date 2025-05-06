@@ -1,5 +1,5 @@
 
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { 
   Edit, 
   FolderCheck, 
@@ -8,88 +8,72 @@ import {
   Layers,
   Shield 
 } from 'lucide-react';
+import { BentoCard, BentoGrid } from './ui/bento-grid';
 
 const features = [
   {
-    title: 'Smart Drafting',
+    Icon: Edit,
+    name: 'Smart Drafting',
     description: 'AI-crafted emails tailored to your tone and style.',
-    icon: Edit,
-    delay: '100'
+    href: "#",
+    cta: "Explore",
+    className: "lg:row-start-1 lg:row-end-3 lg:col-start-1 lg:col-end-2",
+    background: <div className="absolute -right-20 -top-20 w-40 h-40 rounded-full bg-blue-100/60 blur-3xl"></div>
   },
   {
-    title: 'Auto-Organization',
+    Icon: FolderCheck,
+    name: 'Auto-Organization',
     description: 'Automatic email categorization and prioritization.',
-    icon: FolderCheck,
-    delay: '200'
+    href: "#",
+    cta: "Discover",
+    className: "lg:col-start-2 lg:col-end-3 lg:row-start-1 lg:row-end-3",
+    background: <div className="absolute -left-20 -bottom-20 w-40 h-40 rounded-full bg-blue-100/60 blur-3xl"></div>
   },
   {
-    title: 'Quick Replies',
+    Icon: MessageSquare,
+    name: 'Quick Replies',
     description: 'One-click smart responses for common emails.',
-    icon: MessageSquare,
-    delay: '300'
+    href: "#",
+    cta: "Learn More",
+    className: "lg:row-start-3 lg:row-end-4 lg:col-start-1 lg:col-end-2",
+    background: <div className="absolute -right-10 -bottom-10 w-32 h-32 rounded-full bg-blue-100/60 blur-2xl"></div>
   },
   {
-    title: 'Calendar Sync',
+    Icon: Calendar,
+    name: 'Calendar Sync',
     description: 'Seamless scheduling and meeting integration.',
-    icon: Calendar,
-    delay: '400'
+    href: "#",
+    cta: "View Details",
+    className: "lg:col-start-3 lg:col-end-4 lg:row-start-1 lg:row-end-2",
+    background: <div className="absolute -left-10 -top-10 w-32 h-32 rounded-full bg-blue-100/60 blur-2xl"></div>
   },
   {
-    title: 'Multitasking Mastery',
+    Icon: Layers,
+    name: 'Multitasking Mastery',
     description: 'Manage multiple inboxes effortlessly.',
-    icon: Layers,
-    delay: '500'
+    href: "#",
+    cta: "See More",
+    className: "lg:col-start-2 lg:col-end-3 lg:row-start-3 lg:row-end-4",
+    background: <div className="absolute -right-15 -top-15 w-36 h-36 rounded-full bg-blue-100/60 blur-2xl"></div>
   },
   {
-    title: 'Security',
+    Icon: Shield,
+    name: 'Security',
     description: 'Enterprise-grade encryption and privacy features.',
-    icon: Shield,
-    delay: '600'
+    href: "#",
+    cta: "Read More",
+    className: "lg:col-start-3 lg:col-end-4 lg:row-start-2 lg:row-end-4",
+    background: <div className="absolute -left-15 -bottom-15 w-36 h-36 rounded-full bg-blue-100/60 blur-2xl"></div>
   }
 ];
 
 const FeaturesSection = () => {
-  const sectionRef = useRef<HTMLElement>(null);
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const featureCards = document.querySelectorAll('.feature-card');
-            featureCards.forEach((card, index) => {
-              setTimeout(() => {
-                card.classList.add('visible');
-              }, index * 100);
-            });
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-    
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-    
-    return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-    };
-  }, []);
-  
   return (
     <section 
       id="features" 
       className="py-24 relative overflow-hidden bg-gradient-to-b from-white to-blue-50"
-      ref={sectionRef}
     >
       {/* Background elements */}
-      <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-blue-50 -z-10"></div>
-      <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-blue-50 -z-10"></div>
-      <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-[120px] opacity-40 -z-10"></div>
-      
       <div className="container mx-auto px-4 md:px-6">
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <div className="inline-flex items-center px-4 py-2 bg-blue-100 rounded-full text-blue-600 text-sm font-medium mb-6">
@@ -102,21 +86,20 @@ const FeaturesSection = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div 
-              key={index} 
-              className="feature-card glass-card bg-white/70 rounded-xl p-6 transition-all duration-500 hover:shadow-xl hover:-translate-y-1 hover:scale-[1.03] opacity-0"
-              style={{ transitionDelay: `${parseInt(feature.delay)}ms` }}
-            >
-              <div className="h-12 w-12 rounded-xl blue-gradient flex items-center justify-center mb-4 shadow-lg">
-                <feature.icon className="h-6 w-6 text-white" />
-              </div>
-              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-              <p className="text-gray-600">{feature.description}</p>
-            </div>
+        <BentoGrid className="lg:grid-rows-3">
+          {features.map((feature) => (
+            <BentoCard
+              key={feature.name}
+              Icon={feature.Icon}
+              name={feature.name}
+              description={feature.description}
+              href={feature.href}
+              cta={feature.cta}
+              className={feature.className}
+              background={feature.background}
+            />
           ))}
-        </div>
+        </BentoGrid>
       </div>
     </section>
   );
