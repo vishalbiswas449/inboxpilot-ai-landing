@@ -26,63 +26,49 @@ const testimonials = [
     name: "David Wilson",
     title: "Sales Director",
     avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    quote: "Email organization was a mess until InboxPilot. Now everything is where I need it, when I need it.",
+    name: "Emma Rodriguez",
+    title: "Freelance Designer",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
+  },
+  {
+    quote: "The AI understands context so well. It drafts perfect responses that sound just like me!",
+    name: "James Thompson",
+    title: "Senior Developer",
+    avatar: "https://images.unsplash.com/photo-1552058544-f2b08422138a?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80"
   }
 ];
 
 const SocialProofSection = () => {
   const scrollContainer = useRef<HTMLDivElement>(null);
-  const sectionRef = useRef<HTMLElement>(null);
-  const isScrolling = useRef<boolean>(false);
+  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const isPaused = useRef<boolean>(false);
   
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          startScrolling();
-        } else {
-          stopScrolling();
-        }
-      },
-      { threshold: 0.1 }
-    );
+  const startAutoScroll = () => {
+    if (autoScrollRef.current) clearInterval(autoScrollRef.current);
     
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
+    autoScrollRef.current = setInterval(() => {
+      if (scrollContainer.current && !isPaused.current) {
+        scrollContainer.current.scrollLeft += 2;
+        
+        // Reset scroll position to start when reached the end
+        const container = scrollContainer.current;
+        if (container.scrollLeft >= (container.scrollWidth - container.clientWidth - 10)) {
+          container.scrollLeft = 0;
+        }
+      }
+    }, 30);
+  };
+  
+  useEffect(() => {
+    startAutoScroll();
     
     return () => {
-      if (sectionRef.current) {
-        observer.unobserve(sectionRef.current);
-      }
-      stopScrolling();
+      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
     };
   }, []);
-  
-  const startScrolling = () => {
-    if (isScrolling.current) return;
-    isScrolling.current = true;
-    
-    const scroll = () => {
-      if (!scrollContainer.current || !isScrolling.current || isPaused.current) return;
-      
-      const container = scrollContainer.current;
-      if (container.scrollLeft >= (container.scrollWidth - container.clientWidth)) {
-        // Reset scroll position when reached the end
-        container.scrollLeft = 0;
-      } else {
-        container.scrollLeft += 1; // Adjust speed here
-      }
-      
-      requestAnimationFrame(scroll);
-    };
-    
-    requestAnimationFrame(scroll);
-  };
-  
-  const stopScrolling = () => {
-    isScrolling.current = false;
-  };
   
   const handleMouseEnter = () => {
     isPaused.current = true;
@@ -97,7 +83,6 @@ const SocialProofSection = () => {
   
   return (
     <section 
-      ref={sectionRef}
       className="py-24 relative overflow-hidden bg-[#f8fafc]"
     >
       <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-[120px] opacity-30 -z-10"></div>
@@ -149,8 +134,7 @@ const SocialProofSection = () => {
               {allTestimonials.map((testimonial, index) => (
                 <div 
                   key={index}
-                  className="glass-card flex-shrink-0 w-[300px] md:w-[350px] bg-white/70 rounded-xl p-6 border border-transparent hover:border-blue-200 transition-all snap-center"
-                  style={{ boxShadow: '0 8px 32px 0 rgba(31, 38, 135, 0.1)' }}
+                  className="glass-card flex-shrink-0 w-[300px] md:w-[350px] bg-white/70 rounded-xl p-6 border border-transparent hover:border-blue-200 hover:shadow-lg transition-all snap-center"
                 >
                   <div className="flex items-center mb-4">
                     {[...Array(5)].map((_, i) => (
@@ -173,15 +157,6 @@ const SocialProofSection = () => {
                 </div>
               ))}
             </div>
-          </div>
-        </div>
-        
-        {/* Mobile touch indicator */}
-        <div className="flex justify-center mt-4 md:hidden">
-          <div className="flex items-center text-xs text-gray-500">
-            <span className="animate-pulse">←</span>
-            <span className="mx-2">Swipe</span>
-            <span className="animate-pulse">→</span>
           </div>
         </div>
       </div>

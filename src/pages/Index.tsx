@@ -80,12 +80,12 @@ const Index = () => {
       <main>
         <HeroSection />
         
-        {/* Email Preview Section - Moved just below Hero */}
+        {/* Trusted By Section - Moved just below Hero */}
+        <TrustedBySection />
+        
+        {/* Email Preview Section - Next section after Trusted By */}
         <EmailPreviewSection />
         
-        {/* Trusted By Section */}
-        <TrustedBySection />
-
         <div className="relative">
           {/* Decorative dividers */}
           <div className="absolute top-0 left-0 w-full overflow-hidden leading-0 transform rotate-180">
@@ -98,12 +98,8 @@ const Index = () => {
           <FeaturesSection />
           <SocialProofSection />
           
-          {/* Custom Pricing Section */}
-          <div id="pricing" className="py-24 relative overflow-hidden bg-[#f8fafc]">
-            <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-200 rounded-full filter blur-[120px] opacity-40 -z-10"></div>
-            <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-300 rounded-full filter blur-[100px] opacity-30 -z-10"></div>
-            
-            {/* Use the local component that wraps the UI component */}
+          {/* Pricing Section */}
+          <div id="pricing" className="relative overflow-hidden">
             <PricingSection />
           </div>
           
