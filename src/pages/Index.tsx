@@ -103,83 +103,8 @@ const Index = () => {
             <div className="absolute top-1/4 right-1/4 w-64 h-64 bg-blue-200 rounded-full filter blur-[120px] opacity-40 -z-10"></div>
             <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-300 rounded-full filter blur-[100px] opacity-30 -z-10"></div>
             
-            <PricingSection 
-              title="Simple Pricing" 
-              subtitle="Choose the best plan for your needs"
-              frequencies={["Monthly", "Yearly"]}
-              tiers={[
-                {
-                  id: "free",
-                  name: "Free",
-                  price: {
-                    monthly: "$0",
-                    yearly: "$0",
-                  },
-                  description: "For personal use",
-                  features: [
-                    "Basic AI drafting",
-                    "50 emails/day",
-                    "Standard support",
-                    "5 templates",
-                    "Email organization"
-                  ],
-                  cta: "Start Free"
-                },
-                {
-                  id: "pro",
-                  name: "Pro",
-                  price: {
-                    monthly: 15,
-                    yearly: 150,
-                  },
-                  description: "For professionals",
-                  features: [
-                    "Advanced AI drafting",
-                    "Unlimited emails",
-                    "Priority support",
-                    "Complete analytics",
-                    "All templates"
-                  ],
-                  cta: "Get Pro",
-                  popular: true
-                },
-                {
-                  id: "team",
-                  name: "Team",
-                  price: {
-                    monthly: 49,
-                    yearly: 490,
-                  },
-                  description: "For small teams",
-                  features: [
-                    "All Pro features",
-                    "Team collaboration",
-                    "Shared templates",
-                    "Admin controls",
-                    "Advanced security"
-                  ],
-                  cta: "Choose Team"
-                },
-                {
-                  id: "enterprise",
-                  name: "Enterprise",
-                  price: {
-                    monthly: "Custom",
-                    yearly: "Custom",
-                  },
-                  description: "For organizations",
-                  features: [
-                    "All Team features",
-                    "Dedicated account manager",
-                    "Custom integrations",
-                    "Advanced security features",
-                    "SLA guarantees"
-                  ],
-                  cta: "Contact Us",
-                  highlighted: true
-                }
-              ]}
-            />
+            {/* Use the local component that wraps the UI component */}
+            <PricingSection />
           </div>
           
           {/* FAQ Section */}
