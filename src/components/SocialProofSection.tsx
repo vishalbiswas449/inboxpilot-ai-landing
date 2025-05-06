@@ -1,6 +1,8 @@
 
 import React, { useRef, useEffect } from 'react';
 import { Star } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem } from "@/components/ui/carousel";
+import AutoScroll from "embla-carousel-auto-scroll";
 
 const testimonials = [
   {
@@ -42,49 +44,8 @@ const testimonials = [
 ];
 
 const SocialProofSection = () => {
-  const scrollContainer = useRef<HTMLDivElement>(null);
-  const autoScrollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const isPaused = useRef<boolean>(false);
-  
-  const startAutoScroll = () => {
-    if (autoScrollRef.current) clearInterval(autoScrollRef.current);
-    
-    autoScrollRef.current = setInterval(() => {
-      if (scrollContainer.current && !isPaused.current) {
-        scrollContainer.current.scrollLeft += 2;
-        
-        // Reset scroll position to start when reached the end
-        const container = scrollContainer.current;
-        if (container.scrollLeft >= (container.scrollWidth - container.clientWidth - 10)) {
-          container.scrollLeft = 0;
-        }
-      }
-    }, 30);
-  };
-  
-  useEffect(() => {
-    startAutoScroll();
-    
-    return () => {
-      if (autoScrollRef.current) clearInterval(autoScrollRef.current);
-    };
-  }, []);
-  
-  const handleMouseEnter = () => {
-    isPaused.current = true;
-  };
-  
-  const handleMouseLeave = () => {
-    isPaused.current = false;
-  };
-  
-  // Clone testimonials to create infinite loop effect
-  const allTestimonials = [...testimonials, ...testimonials];
-  
   return (
-    <section 
-      className="py-24 relative overflow-hidden bg-[#f8fafc]"
-    >
+    <section className="py-24 relative overflow-hidden bg-[#f8fafc]">
       <div className="absolute top-1/4 right-1/4 w-72 h-72 bg-blue-200 rounded-full filter blur-[120px] opacity-30 -z-10"></div>
       <div className="absolute bottom-1/4 left-1/4 w-64 h-64 bg-blue-300 rounded-full filter blur-[100px] opacity-25 -z-10"></div>
       
@@ -111,53 +72,55 @@ const SocialProofSection = () => {
           </div>
         </div>
         
-        <div 
-          className="relative overflow-hidden"
-          style={{ padding: '20px 0' }}
-        >
+        <div className="relative overflow-hidden" style={{ padding: '20px 0' }}>
           {/* Gradient fade on left edge */}
           <div className="absolute left-0 top-0 bottom-0 w-12 md:w-24 z-10 bg-gradient-to-r from-[#f8fafc] to-transparent"></div>
           
           {/* Gradient fade on right edge */}
           <div className="absolute right-0 top-0 bottom-0 w-12 md:w-24 z-10 bg-gradient-to-l from-[#f8fafc] to-transparent"></div>
           
-          <div 
-            ref={scrollContainer}
-            className="flex overflow-x-auto snap-x scrollbar-hide pb-6 pt-2"
-            style={{ scrollBehavior: 'smooth', scrollbarWidth: 'none', msOverflowStyle: 'none' }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-            onTouchStart={handleMouseEnter}
-            onTouchEnd={handleMouseLeave}
+          <Carousel
+            opts={{ loop: true, align: "start" }}
+            plugins={[
+              AutoScroll({ 
+                playOnInit: true,
+                speed: 0.5,
+                stopOnInteraction: true, // Stop on hover
+                stopOnMouseEnter: true   // Stop on hover
+              })
+            ]}
+            className="w-full"
           >
-            <div className="flex gap-6 pr-6">
-              {allTestimonials.map((testimonial, index) => (
-                <div 
-                  key={index}
-                  className="glass-card flex-shrink-0 w-[300px] md:w-[350px] bg-white/70 rounded-xl p-6 border border-transparent hover:border-blue-200 hover:shadow-lg transition-all snap-center"
+            <CarouselContent className="-ml-2 md:-ml-4">
+              {testimonials.map((testimonial, index) => (
+                <CarouselItem 
+                  key={index} 
+                  className="pl-2 md:pl-4 basis-full sm:basis-1/2 md:basis-1/3 lg:basis-1/3"
                 >
-                  <div className="flex items-center mb-4">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" />
-                    ))}
-                  </div>
-                  <p className="text-gray-700 mb-6 italic">&quot;{testimonial.quote}&quot;</p>
-                  <div className="flex items-center">
-                    <img 
-                      src={testimonial.avatar} 
-                      alt={testimonial.name}
-                      className="h-12 w-12 rounded-full object-cover mr-4" 
-                      loading="lazy"
-                    />
-                    <div>
-                      <p className="font-semibold">{testimonial.name}</p>
-                      <p className="text-sm text-gray-600">{testimonial.title}</p>
+                  <div className="glass-card flex-shrink-0 h-full bg-white/70 rounded-xl p-6 border border-transparent hover:border-blue-200 hover:shadow-lg transition-all">
+                    <div className="flex items-center mb-4">
+                      {[...Array(5)].map((_, i) => (
+                        <Star key={i} className="h-4 w-4 text-yellow-500 fill-current" />
+                      ))}
+                    </div>
+                    <p className="text-gray-700 mb-6 italic">&quot;{testimonial.quote}&quot;</p>
+                    <div className="flex items-center">
+                      <img 
+                        src={testimonial.avatar} 
+                        alt={testimonial.name}
+                        className="h-12 w-12 rounded-full object-cover mr-4" 
+                        loading="lazy"
+                      />
+                      <div>
+                        <p className="font-semibold">{testimonial.name}</p>
+                        <p className="text-sm text-gray-600">{testimonial.title}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
+                </CarouselItem>
               ))}
-            </div>
-          </div>
+            </CarouselContent>
+          </Carousel>
         </div>
       </div>
     </section>
